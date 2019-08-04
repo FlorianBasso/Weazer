@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  Weazer
+
+  Created by Florian Basso on 14/04/2019.
+  Copyright © 2019 Roaflin. All rights reserved.
+*/
+
+"my.forecasts.title" = "Mes prévisions";
+"add.forecasts.title" = "Ajouter des prévisions";
+"add.forecasts.search.placeholder" = "Chercher des villes...";
+"my.forecasts.search.placeholder" = "Filtrer mes prévisions...";
+"weather.title" = "Temps";
+"sunrise.title" = "Lever du soleil";
+"sunset.title" = "Coucher du soleil";
+"wind.title" = "Vent";
+"temp.min.title" = "Température Min";
+"temp.max.title" = "Température Max";
+"humidity.title" = "Humidité";
