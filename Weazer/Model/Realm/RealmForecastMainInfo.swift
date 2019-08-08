@@ -19,14 +19,9 @@ class RealmForecastMainInfo: RealmModel {
     
     // MARK: - YMMRealmObject
     
-    override var modelToUpdate: Model {
-        return ForecastMainInfo()
-    }
-    
-    override func updateProperties(to model: Model) {
-        super.updateProperties(to: model)
-        
-        guard let forecastMainInfo = model as? ForecastMainInfo else { return }                
+    override func updatePropertiesFromDatabase<T>(to model: T) where T : Model {
+        super.updatePropertiesFromDatabase(to: model)
+        guard let forecastMainInfo = model as? ForecastMainInfo else { return }
         forecastMainInfo.remoteKey = self.remoteKey
         forecastMainInfo.temperature = self.temperature
         forecastMainInfo.temperatureMin = self.temperatureMin
@@ -35,10 +30,9 @@ class RealmForecastMainInfo: RealmModel {
         forecastMainInfo.humidity = self.humidity
     }
     
-    override func configure(model: Model) {
-        super.configure(model: model)
-        
-        guard let forecastMainInfo = model as? ForecastMainInfo else { return }                
+    override func updatePropertiesToDatabase<T>(from model: T) where T : Model {
+        super.updatePropertiesToDatabase(from: model)
+        guard let forecastMainInfo = model as? ForecastMainInfo else { return }
         self.temperature = forecastMainInfo.temperature ?? 0
         self.temperatureMin = forecastMainInfo.temperatureMin ?? 0
         self.temperatureMax = forecastMainInfo.temperatureMax ?? 0

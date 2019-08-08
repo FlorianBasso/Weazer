@@ -76,13 +76,19 @@ class MyForecastsVM: SearchableTVM {
     override func load() {
         super.load()
         // Fetch repo in database
-        guard let databaseForecasts = AppEnvironment.shared().database?.getAll(type: Forecast.self) as? [Forecast] else {
+        guard let result = AppEnvironment.shared().database?.getAll(type: Forecast.self) else {
             return
         }
         
-        self.databaseForecasts = databaseForecasts
-        self.isFiltering = false
-        self.handleSuccess()
+        switch result {
+        case .success(let databaseForecasts):
+            self.databaseForecasts = databaseForecasts
+            self.isFiltering = false
+            self.handleSuccess()
+        default:
+            // TODO: Handle Error
+            return
+        }                
     }
     
     // MARK: - Navigation
@@ -137,9 +143,8 @@ class MyForecastsVM: SearchableTVM {
                     tableView.deleteRows(at: [indexPath], with: .fade)
                 }
                                 
-                // Deletes from database
-                let remoteKeyString = "\(forecast.remoteKey)"
-                AppEnvironment.shared().database?.deleteById(idString: remoteKeyString, type: Forecast.self)
+                // Deletes from database                
+                AppEnvironment.shared().database?.deleteById(remoteKey: forecast.remoteKey, type: Forecast.self)
             }
         }
                 

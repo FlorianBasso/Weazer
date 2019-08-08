@@ -23,18 +23,6 @@ class ModelTests: TestCase {
         XCTAssertEqual(remoteKey, 0)
     }
     
-    // MARK: - remoteKeyString
-    func test_remoteKeyString_shouldReturn0ByDefault() {
-        // Given
-        let model = Model()
-        
-        // When
-        let remoteKeyString = model.remoteKeyString
-        
-        // Then
-        XCTAssertEqual(remoteKeyString, "0")
-    }
-    
     // MARK: - id
     func test_id_shouldReturnId() {
         // Given & When

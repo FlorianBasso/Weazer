@@ -17,7 +17,7 @@ class RealmModelTests: TestCase {
         let primaryKey = RealmModel.primaryKey()
         
         // Then
-        XCTAssertEqual(primaryKey, #keyPath(RealmModel.remoteKeyString))
+        XCTAssertEqual(primaryKey, #keyPath(RealmModel.remoteKey))
     }
     
     // MARK: - remoteKey
@@ -32,45 +32,18 @@ class RealmModelTests: TestCase {
         XCTAssertEqual(remoteKey, 0)
     }
     
-    // MARK: - remoteKeyString
-    func test_remoteKeyString_shouldReturnAnEmptyStringByDefault() {
-        // Given
-        let realmModel = RealmModel()
-        
-        // When
-        let remoteKeyString = realmModel.remoteKeyString
-        
-        // Then
-        XCTAssertEqual(remoteKeyString, "")
-    }
-    
-    // MARK: - modelToUpdate
-    func test_modelToUpdate_shouldReturnAModel() {
-        // Given
-        let realmModel = RealmModel()
-        
-        // When
-        let modelToUpdate = realmModel.modelToUpdate
-        
-        // Then
-        XCTAssertNotNil(modelToUpdate)
-    }
-    
     // MARK: - entity
     func test_entity_shouldReturnAnEntity_andUpdatePropertiesToModel() {
         // Given
         let realmModel = RealmModel()
         let remoteKey = 2
-        let remoteKeyString = "\(remoteKey)"
         realmModel.remoteKey = remoteKey
-        realmModel.remoteKeyString = remoteKeyString
         
         // When
         let entity = realmModel.entity
         
         // Then
         XCTAssertNotNil(entity)
-        XCTAssertEqual(entity.remoteKeyString, realmModel.remoteKeyString)
         XCTAssertEqual(entity.remoteKey, realmModel.remoteKey)
     }
     
@@ -79,9 +52,7 @@ class RealmModelTests: TestCase {
         // Given
         let realmModel = RealmModel()
         let remoteKey = 2
-        let remoteKeyString = "\(remoteKey)"
         realmModel.remoteKey = remoteKey
-        realmModel.remoteKeyString = remoteKeyString
         
         let model = Model()
         
@@ -89,7 +60,6 @@ class RealmModelTests: TestCase {
         realmModel.updateProperties(to: model)
         
         // Then
-        XCTAssertEqual(model.remoteKeyString, realmModel.remoteKeyString)
         XCTAssertEqual(model.remoteKey, realmModel.remoteKey)
     }
     
@@ -104,36 +74,8 @@ class RealmModelTests: TestCase {
         // When
         realmModel.configure(model: model)
         
-        // Then
-        XCTAssertEqual(realmModel.remoteKeyString, "\(realmModel.remoteKey)")
+        // Then        
         XCTAssertEqual(model.remoteKey, realmModel.remoteKey)
-    }
-    
-    // MARK: - configureRemoteKeyString
-    func test_configureRemoteKeyString_shouldNotSetRemoteKeyString_whenRemoteKeyIs0() {
-        // Given
-        let realmModel = RealmModel()
-        let remoteKey = 0
-        realmModel.remoteKey = remoteKey
-        
-        // When
-        realmModel.configureRemoteKeyString()
-        
-        // Then
-        XCTAssertEqual(realmModel.remoteKeyString, "")
-    }
-    
-    func test_configureRemoteKeyString_shouldSetRemoteKeyString_whenRemoteKeyIsNot0() {
-        // Given
-        let realmModel = RealmModel()
-        let remoteKey = 2
-        realmModel.remoteKey = remoteKey
-        
-        // When
-        realmModel.configureRemoteKeyString()
-        
-        // Then
-        XCTAssertEqual(realmModel.remoteKeyString, "2")
     }
 
 }

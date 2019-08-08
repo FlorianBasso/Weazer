@@ -56,10 +56,15 @@ class ForecastMainInfo: Model {
     }
     
     override func remoteKey(inRepresentation representation: [AnyHashable: Any]) -> Int {
-        guard let allForecastMainInfo = AppEnvironment.shared().database?.getAll(type: ForecastMainInfo.self) else {
+        guard let result = AppEnvironment.shared().database?.getAll(type: ForecastMainInfo.self) else {
+            return 0
+        }                
+        
+        switch result {
+        case .success(let allForecastMainInfo):
+            return allForecastMainInfo.count + 1
+        default:
             return 0
         }
-        
-        return allForecastMainInfo.count + 1
     }
 }

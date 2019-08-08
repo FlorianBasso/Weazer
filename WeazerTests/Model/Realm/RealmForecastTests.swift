@@ -11,28 +11,12 @@ import XCTest
 
 class RealmForecastTests: TestCase {
     
-    
-    // MARK: - modelToUpdate
-    func test_modelToUpdate_shouldReturnARepo() {
-        // Given
-        let realmModel = RealmForecast()
-        
-        // When
-        let modelToUpdate = realmModel.modelToUpdate
-        
-        // Then
-        XCTAssertNotNil(modelToUpdate)
-        XCTAssert(modelToUpdate is Forecast)
-    }
-    
     // MARK: - updateProperties
     func test_updateProperties_shouldUpdatePropertiesToRepo() {
         // Given
         let realmForecast = RealmForecast()
         let remoteKey = 2
-        let remoteKeyString = "\(remoteKey)"
         realmForecast.remoteKey = remoteKey
-        realmForecast.remoteKeyString = remoteKeyString
         realmForecast.cityName = "name"
         
         let realmWeather = RealmWeather()
@@ -57,7 +41,6 @@ class RealmForecastTests: TestCase {
         realmForecast.updateProperties(to: forecast)
         
         // Then
-        XCTAssertEqual(forecast.remoteKeyString, realmForecast.remoteKeyString)
         XCTAssertEqual(forecast.remoteKey, realmForecast.remoteKey)
         XCTAssertEqual(forecast.cityName, realmForecast.cityName)
         XCTAssertEqual(forecast.weather, realmForecast.weather?.entity as? Weather)
@@ -95,8 +78,7 @@ class RealmForecastTests: TestCase {
         // When
         realmForecast.configure(model: forecast)
         
-        // Then
-        XCTAssertEqual(realmForecast.remoteKeyString, "\(realmForecast.remoteKey)")
+        // Then        
         XCTAssertEqual(forecast.remoteKey, realmForecast.remoteKey)
         XCTAssertEqual(forecast.cityName, realmForecast.cityName)
         XCTAssertEqual(forecast.weather, realmForecast.weather?.entity as? Weather)

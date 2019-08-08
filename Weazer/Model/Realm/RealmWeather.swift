@@ -16,24 +16,18 @@ class RealmWeather: RealmModel {
     dynamic var descriptionText: String?
     dynamic var iconName: String?
     
-    // MARK: - YMMRealmObject
+    // MARK: - YMMRealmObject        
     
-    override var modelToUpdate: Model {
-        return Weather()
-    }
-    
-    override func updateProperties(to model: Model) {
-        super.updateProperties(to: model)
-        
+    override func updatePropertiesFromDatabase<T>(to model: T) where T : Model {
+        super.updatePropertiesFromDatabase(to: model)
         guard let weather = model as? Weather else { return }
         weather.headline = self.headline
         weather.descriptionText = self.descriptionText
         weather.iconName = self.iconName
     }
     
-    override func configure(model: Model) {
-        super.configure(model: model)
-        
+    override func updatePropertiesToDatabase<T>(from model: T) where T : Model {
+        super.updatePropertiesToDatabase(from: model)        
         guard let weather = model as? Weather else { return }
         self.headline = weather.headline
         self.descriptionText = weather.descriptionText

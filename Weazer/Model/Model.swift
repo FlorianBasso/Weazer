@@ -10,12 +10,9 @@ import Foundation
 
 open class Model: NSObject {
     
-    // MARK: - Properties
-    
+    // MARK: - Properties    
     open var remoteKey: Int = 0 // object id
-    open var remoteKeyString : String = "0" // object id String
 
-    
     public struct Constants {
         public static let id = "id"
     }

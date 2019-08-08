@@ -36,10 +36,15 @@ class Wind: Model {
     }
     
     override func remoteKey(inRepresentation representation: [AnyHashable: Any]) -> Int {
-        guard let allWind = AppEnvironment.shared().database?.getAll(type: Wind.self) else {
+        guard let result = AppEnvironment.shared().database?.getAll(type: Wind.self) else {
             return 0
         }
         
-        return allWind.count + 1
+        switch result {
+        case .success(let allWind):
+            return allWind.count + 1
+        default:
+            return 0
+        }                
     }
 }

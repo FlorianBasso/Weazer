@@ -16,24 +16,18 @@ class RealmWind: RealmModel {
     
     // MARK: - YMMRealmObject
     
-    override var modelToUpdate: Model {
-        return Wind()
-    }
-    
-    override func updateProperties(to model: Model) {
-        super.updateProperties(to: model)
-        
-        guard let wind = model as? Wind else { return }
-        wind.speed = self.speed
-        wind.degree = self.degree
-    }
-    
-    override func configure(model: Model) {
-        super.configure(model: model)
-        
+    override func updatePropertiesToDatabase<T>(from model: T) where T : Model {
+        super.updatePropertiesToDatabase(from: model)
         guard let wind = model as? Wind else { return }
         self.speed = wind.speed ?? 0
         self.degree = wind.degree ?? 0
+    }
+        
+    override func updatePropertiesFromDatabase<T>(to model: T) where T : Model {
+        super.updatePropertiesFromDatabase(to: model)
+        guard let wind = model as? Wind else { return }
+        wind.speed = self.speed
+        wind.degree = self.degree
     }
     
 }

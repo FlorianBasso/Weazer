@@ -9,69 +9,125 @@
 import Foundation
 import RealmSwift
 
-class RealmDatabase: Database {
+struct RealmDatabase: Database {
     
-    let realm = try! Realm()
-    
-    static let entityMapping: [String: RealmModel.Type] = [String(describing:Forecast.self): RealmForecast.self,
-                                                           String(describing:Weather.self): RealmWeather.self,
-                                                           String(describing:SunInfo.self): RealmSunInfo.self,
-                                                           String(describing:Wind.self): RealmWind.self,
-                                                           String(describing:ForecastMainInfo.self): RealmForecastMainInfo.self]
-    
-    // MARK: - YMMDatabase
-    
-    func getAll(type: AnyClass) -> [Any]? {
-        let entityString = String(describing:type.self)
-        guard let realmEntityType = RealmDatabase.entityMapping[entityString] else {return nil}
-        let results = self.realm.objects(realmEntityType)
-        return results.map { $0.entity }
-    }
-    
-    func getById(id: Int, type: AnyClass) -> Any? {
-        let entityString = String(describing:type.self)
-        guard let realmEntityType = RealmDatabase.entityMapping[entityString] else {return nil}
-        let results = self.realm.objects(realmEntityType).map { $0.entity }.filter { (aModel) -> Bool in
-            return aModel.remoteKey == id
-        }
-        return results.first
-    }
-    
-    func getByPredicate(predicate: NSPredicate, type: AnyClass) -> Any? {
-        let entityString = String(describing:type.self)
-        guard let realmEntityType = RealmDatabase.entityMapping[entityString],
-            let result = self.realm.objects(realmEntityType).filter(predicate).first else {return nil}
+    static let defaultRealmFilename = "default.realm"
+    static let realmFileUrl = Realm.Configuration.defaultConfiguration.fileURL
+    static let realmConfig: Realm.Configuration = {
+        var config = Realm.Configuration(fileURL: RealmDatabase.realmFileUrl)
         
-        return result.entity
-    }
-    
-    func insertOrUpdate(item: Any) {
-        try? self.realm.write {
-            let entityString = String(describing: type(of:item).self)
-            
-            guard let realmEntityType = RealmDatabase.entityMapping[entityString],
-                let model = item as? Model else {return}
-            let realmEntity = realmEntityType.init()
-            realmEntity.configure(model: model)
-            self.realm.add(realmEntity, update: true)
+        if let infoBundle = Bundle.main.infoDictionary,
+            let buildNumberString = infoBundle[kCFBundleVersionKey as String] as? String,
+            let buildNumber = Int(buildNumberString) {
+            config.schemaVersion = UInt64(buildNumber)
         }
-    }
-    
-    func clean(entityString: String) {
-        try? self.realm.write {
-            guard let realmEntityType = RealmDatabase.entityMapping[entityString] else {return}
-            let objects = self.realm.objects(realmEntityType)
-            self.realm.delete(objects)
+        
+        config.migrationBlock = { migration, oldSchemaVersion in
+            // If migration needed
         }
+        
+        return config
+    }()
+    
+    private var realm: Realm? {
+        var tempRealm: Realm?
+        do {
+            tempRealm = try Realm(configuration: RealmDatabase.realmConfig)
+        } catch {
+            do {
+                guard let url = RealmDatabase.realmFileUrl else {
+                    return nil
+                }
+                try FileManager.default.removeItem(at: url)
+                tempRealm = try Realm(configuration: RealmDatabase.realmConfig)
+            } catch {}
+        }
+        return tempRealm
     }
     
-    func deleteById(idString: String, type: AnyClass) {
+    let entityMapping: [String: RealmModel.Type] = [String(describing:Forecast.self): RealmForecast.self,
+                                                    String(describing:Weather.self): RealmWeather.self,
+                                                    String(describing:SunInfo.self): RealmSunInfo.self,
+                                                    String(describing:Wind.self): RealmWind.self,
+                                                    String(describing:ForecastMainInfo.self): RealmForecastMainInfo.self]
+    
+    func getAll<T: Model>(type: T.Type) -> Result<[T], DatabaseError> {
         let entityString = String(describing:type.self)
-        guard let realmEntityType = RealmDatabase.entityMapping[entityString] else {return}
-        let predicate = NSPredicate(format: "remoteKeyString == %@", idString)
-        let results = self.realm.objects(realmEntityType).filter(predicate)
-        try? self.realm.write {
-            self.realm.delete(results)
+        guard let realmEntityType = self.entityMapping[entityString],
+            let results = realm?.objects(realmEntityType) else {
+                return Result.failure(DatabaseError.unknownEntity)
         }
+        
+        let array: [T] = results.map {$0.entity(forType: T.self)}
+        return Result.success(array)
     }
+    
+    func getById<T: Model>(id: Int, type: T.Type) -> Result<T, DatabaseError> {
+        let predicate = NSPredicate(format: "remoteKey == %d", id)
+        return self.getByPredicate(predicate: predicate, type: T.self)
+    }
+    
+    func getByPredicate<T: Model>(predicate: NSPredicate, type: T.Type) -> Result<T, DatabaseError> {
+        let entityString = String(describing:type.self)
+        guard let realmEntityType = self.entityMapping[entityString] else {
+            return Result.failure(DatabaseError.unknownEntity)
+        }
+        guard let resultEntity = realm?.objects(realmEntityType).filter(predicate).first?.entity(forType: T.self) else {
+            return Result.failure(DatabaseError.noEntity)
+        }
+        
+        return Result.success(resultEntity)
+    }
+    
+    func insertOrUpdate<T: Model>(item: T) -> Result<T, DatabaseError> {
+        let entityString = String(describing: type(of:item).self)
+        
+        guard let realmEntityType = self.entityMapping[entityString] else {
+            return Result.failure(DatabaseError.unknownEntity)
+        }
+        
+        try? realm?.write {
+            let realmEntity = realmEntityType.init()
+            realmEntity.updatePropertiesToDatabase(from: item)
+            realm?.add(realmEntity, update: true)
+        }
+        
+        return Result.success(item)
+    }
+    
+    func deleteAll<T: Model>(type: T.Type) -> Result<Void, DatabaseError> {
+        
+        let entityString = String(describing: type.self)
+        guard let realmEntityType = self.entityMapping[entityString] else {
+            return Result.failure(DatabaseError.unknownEntity)
+        }
+        guard let objects = realm?.objects(realmEntityType) else {
+            return Result.failure(DatabaseError.noEntity)
+        }
+        
+        try? realm?.write {
+            realm?.delete(objects)
+        }
+        
+        return Result.success(())
+    }
+    
+    func deleteById<T: Model>(remoteKey: Int, type: T.Type) -> Result<Void, DatabaseError> {
+        
+        let entityString = String(describing:type.self)
+        guard let realmEntityType = self.entityMapping[entityString] else {
+            return Result.failure(DatabaseError.unknownEntity)
+        }
+        let predicate = NSPredicate(format: "remoteKey == %d", remoteKey)
+        guard let results = realm?.objects(realmEntityType).filter(predicate) else {
+            return Result.failure(DatabaseError.noEntity)
+        }
+        
+        try? realm?.write {
+            realm?.delete(results)
+        }
+        
+        return Result.success(())
+    }
+    
 }

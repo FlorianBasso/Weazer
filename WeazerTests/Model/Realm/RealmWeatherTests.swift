@@ -10,28 +10,13 @@ import XCTest
 @testable import Weazer
 
 class RealmWeatherTests: TestCase {
-
-    // MARK: - modelToUpdate
-    func test_modelToUpdate_shouldReturnAWeather() {
-        // Given
-        let realmModel = RealmWeather()
-        
-        // When
-        let modelToUpdate = realmModel.modelToUpdate
-        
-        // Then
-        XCTAssertNotNil(modelToUpdate)
-        XCTAssert(modelToUpdate is Weather)
-    }
     
     // MARK: - updateProperties
     func test_updateProperties_shouldUpdatePropertiesToWeather() {
         // Given
         let realmWeather = RealmWeather()
         let remoteKey = 2
-        let remoteKeyString = "\(remoteKey)"
         realmWeather.remoteKey = remoteKey
-        realmWeather.remoteKeyString = remoteKeyString
         realmWeather.headline = "headline"
         realmWeather.descriptionText = "bla"
         realmWeather.iconName = "bli"
@@ -42,7 +27,6 @@ class RealmWeatherTests: TestCase {
         realmWeather.updateProperties(to: weather)
         
         // Then
-        XCTAssertEqual(weather.remoteKeyString, realmWeather.remoteKeyString)
         XCTAssertEqual(weather.remoteKey, realmWeather.remoteKey)
         XCTAssertEqual(weather.headline, realmWeather.headline)
         XCTAssertEqual(weather.descriptionText, realmWeather.descriptionText)
@@ -63,8 +47,7 @@ class RealmWeatherTests: TestCase {
         // When
         realmWeather.configure(model: weather)
         
-        // Then
-        XCTAssertEqual(realmWeather.remoteKeyString, "\(realmWeather.remoteKey)")
+        // Then        
         XCTAssertEqual(weather.remoteKey, realmWeather.remoteKey)
         XCTAssertEqual(weather.headline, realmWeather.headline)
         XCTAssertEqual(weather.descriptionText, realmWeather.descriptionText)

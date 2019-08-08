@@ -15,39 +15,25 @@ class RealmModel: Object {
     // MARK: - Object
     
     override class func primaryKey() -> String? {
-        return #keyPath(RealmModel.remoteKeyString)
+        return #keyPath(RealmModel.remoteKey)
     }
     
     // MARK: - YMMRealmObject
     
-    dynamic var remoteKey = 0
-    dynamic var remoteKeyString: String = ""
+    @objc dynamic var remoteKey: Int = 0    
     
-    var modelToUpdate: Model {
-        return Model()
-    }
-    
-    dynamic var entity: Model {
-        let model = self.modelToUpdate
-        self.updateProperties(to: model)
+    func entity<T: Model>(forType: T.Type) -> T {
+        let model = T.init()
+        self.updatePropertiesFromDatabase(to: model)
         return model
     }
     
-    func updateProperties(to model: Model) {
-        model.remoteKey = self.remoteKey
-        model.remoteKeyString = self.remoteKeyString
-    }
-    
-    func configure(model: Model) {
-        // Overrides in subclasses and stores information from the model
+    func updatePropertiesToDatabase<T: Model>(from model: T) {
         self.remoteKey = model.remoteKey
-        self.configureRemoteKeyString()
     }
     
-    func configureRemoteKeyString() {
-        if (self.remoteKey != 0) {
-            self.remoteKeyString = "\(self.remoteKey)"
-        }
+    func updatePropertiesFromDatabase<T: Model>(to model: T) {
+        model.remoteKey = self.remoteKey
     }
     
 }
