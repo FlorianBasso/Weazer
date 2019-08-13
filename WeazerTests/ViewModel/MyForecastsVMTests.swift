@@ -93,7 +93,7 @@ class MyForecastsVMTests: TestCase {
         viewModel.delegate = delegate
         let aForecast = Forecast()
         let forecasts = [aForecast]
-        self.database.mockGetAll = forecasts
+        self.database.mockGetAll = Result.success(forecasts)
         
         // When
         viewModel.load()

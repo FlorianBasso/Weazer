@@ -74,13 +74,14 @@ class WindTests: TestCase {
     func test_remoteKey_shouldReturnCorrectValue_whenSomeWindIsStoredInDatabase() {
         // Given
         let wind = Wind()
-        self.database.mockGetAll = [wind]
+        let mockResult = Result<[Model], DatabaseError>.success([wind])
+        self.database.mockGetAll = mockResult
         
         // When
         let remoteKey = wind.remoteKey(inRepresentation: [:])
         
         // Then
-        XCTAssertEqual(remoteKey, self.database.mockGetAll!.count + 1)
+        XCTAssertEqual(remoteKey, try! mockResult.get().count + 1)
     }
 
 }

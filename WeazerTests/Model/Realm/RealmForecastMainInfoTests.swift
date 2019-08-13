@@ -11,8 +11,8 @@ import XCTest
 
 class RealmForecastMainInfoTests: TestCase {
     
-    // MARK: - updateProperties
-    func test_updateProperties_shouldUpdatePropertiesToUser() {
+    // MARK: - updatePropertiesFromDatabase
+    func test_updatePropertiesFromDatabase_shouldUpdatePropertiesToUser() {
         // Given
         let realmModel = RealmForecastMainInfo()
         let remoteKey = 2
@@ -26,7 +26,7 @@ class RealmForecastMainInfoTests: TestCase {
         let model = ForecastMainInfo()
         
         // When
-        realmModel.updateProperties(to: model)
+        realmModel.updatePropertiesFromDatabase(to: model)
         
         // Then
         XCTAssertEqual(model.remoteKey, realmModel.remoteKey)
@@ -37,8 +37,8 @@ class RealmForecastMainInfoTests: TestCase {
         XCTAssertEqual(model.humidity, realmModel.humidity)
     }
     
-    // MARK: - configure
-    func test_configure_shouldUpdatePropertiesToRealmUser() {
+    // MARK: - updatePropertiesToDatabase
+    func test_updatePropertiesToDatabase_shouldUpdatePropertiesToRealmUser() {
         // Given
         let realmModel = RealmForecastMainInfo()
         let model = ForecastMainInfo()
@@ -51,7 +51,7 @@ class RealmForecastMainInfoTests: TestCase {
         model.humidity = 65
         
         // When
-        realmModel.configure(model: model)
+        realmModel.updatePropertiesToDatabase(from: model)
         
         // Then        
         XCTAssertEqual(model.remoteKey, realmModel.remoteKey)

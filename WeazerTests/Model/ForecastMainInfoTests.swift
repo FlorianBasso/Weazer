@@ -113,13 +113,13 @@ class ForecastMainInfoTests: TestCase {
     func test_remoteKey_shouldReturnCorrectValue_whenSomeWindIsStoredInDatabase() {
         // Given
         let mainInfo = ForecastMainInfo()
-        self.database.mockGetAll = [mainInfo]
+        self.database.mockGetAll = Result<[Model], DatabaseError>.success([mainInfo])
         
         // When
         let remoteKey = mainInfo.remoteKey(inRepresentation: [:])
         
         // Then
-        XCTAssertEqual(remoteKey, self.database.mockGetAll!.count + 1)
+        XCTAssertEqual(remoteKey, try! self.database.mockGetAll!.get().count + 1)
     }
 
 }

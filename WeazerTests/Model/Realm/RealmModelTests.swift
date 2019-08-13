@@ -40,15 +40,15 @@ class RealmModelTests: TestCase {
         realmModel.remoteKey = remoteKey
         
         // When
-        let entity = realmModel.entity
+        let entity = realmModel.entity(forType: Model.self)
         
         // Then
         XCTAssertNotNil(entity)
         XCTAssertEqual(entity.remoteKey, realmModel.remoteKey)
     }
     
-    // MARK: - updateProperties
-    func test_updateProperties_shouldUpdatePropertiesToModel() {
+    // MARK: - updatePropertiesFromDatabase
+    func test_updatePropertiesFromDatabase_shouldUpdatePropertiesToModel() {
         // Given
         let realmModel = RealmModel()
         let remoteKey = 2
@@ -57,14 +57,14 @@ class RealmModelTests: TestCase {
         let model = Model()
         
         // When
-        realmModel.updateProperties(to: model)
+        realmModel.updatePropertiesFromDatabase(to: model)
         
         // Then
         XCTAssertEqual(model.remoteKey, realmModel.remoteKey)
     }
     
-    // MARK: - configure
-    func test_configure_shouldUpdatePropertiesToRealmModel() {
+    // MARK: - updatePropertiesToDatabase
+    func test_updatePropertiesToDatabase_shouldUpdatePropertiesToRealmModel() {
         // Given
         let realmModel = RealmModel()
         let model = Model()
@@ -72,7 +72,7 @@ class RealmModelTests: TestCase {
         model.remoteKey = remoteKey
         
         // When
-        realmModel.configure(model: model)
+        realmModel.updatePropertiesToDatabase(from: model)
         
         // Then        
         XCTAssertEqual(model.remoteKey, realmModel.remoteKey)

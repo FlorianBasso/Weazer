@@ -11,8 +11,8 @@ import XCTest
 
 class RealmSunInfoTests: TestCase {
 
-    // MARK: - updateProperties
-    func test_updateProperties_shouldUpdatePropertiesToUser() {
+    // MARK: - updatePropertiesFromDatabase
+    func test_updatePropertiesFromDatabase_shouldUpdatePropertiesToUser() {
         // Given
         let realmModel = RealmSunInfo()
         let remoteKey = 2
@@ -23,7 +23,7 @@ class RealmSunInfoTests: TestCase {
         let model = SunInfo()
         
         // When
-        realmModel.updateProperties(to: model)
+        realmModel.updatePropertiesFromDatabase(to: model)
         
         // Then
         XCTAssertEqual(model.remoteKey, realmModel.remoteKey)
@@ -31,8 +31,8 @@ class RealmSunInfoTests: TestCase {
         XCTAssertEqual(model.sunsetDate, realmModel.sunsetDate)
     }
     
-    // MARK: - configure
-    func test_configure_shouldUpdatePropertiesToRealmUser() {
+    // MARK: - updatePropertiesToDatabase
+    func test_updatePropertiesToDatabase_shouldUpdatePropertiesToRealmUser() {
         // Given
         let realmModel = RealmSunInfo()
         let model = SunInfo()
@@ -42,7 +42,7 @@ class RealmSunInfoTests: TestCase {
         model.sunriseDate = Date(timeIntervalSince1970: 4343434)
         
         // When
-        realmModel.configure(model: model)
+        realmModel.updatePropertiesToDatabase(from: model)
         
         // Then        
         XCTAssertEqual(model.remoteKey, realmModel.remoteKey)

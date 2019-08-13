@@ -11,35 +11,52 @@ import Foundation
 
 class MockDatabase: Database {
     
-    var mockGetAll: [Any]?
-    func getAll(type: AnyClass) -> [Any]? {
+    var mockGetAll: Result<[Model], DatabaseError>?
+    func getAll<T>(type: T.Type) -> Result<[T], DatabaseError> where T : Model {
+        
+        guard let mockGetAll = self.mockGetAll?.map({$0 as! [T]}) else {
+            return Result.failure(.noEntity)
+        }
+        
         return mockGetAll
     }
     
-    var mockGetBy: Any?
-    func getById(id: Int, type: AnyClass) -> Any? {
+    var mockGetBy: Result<Model, DatabaseError>?
+    func getById<T>(id: Int, type: T.Type) -> Result<T, DatabaseError> where T : Model {
+        
+        guard let mockGetBy = self.mockGetBy?.map({$0 as! T}) else {
+            return Result.failure(.noEntity)
+        }
+        
         return mockGetBy
     }
     
-    func getByPredicate(predicate: NSPredicate, type: AnyClass) -> Any? {
+    func getByPredicate<T>(predicate: NSPredicate, type: T.Type) -> Result<T, DatabaseError> where T : Model {
+        guard let mockGetBy = self.mockGetBy?.map({$0 as! T}) else {
+            return Result.failure(.noEntity)
+        }
+        
         return mockGetBy
     }
     
-    var itemInserted: Any?
-    func insertOrUpdate(item: Any) {
+    var itemInserted: Model?
+    func insertOrUpdate<T>(item: T) -> Result<T, DatabaseError> where T : Model {
         self.itemInserted = item
+        return Result.success(item)
     }
     
     var entityString: String?
-    func clean(entityString: String) {
-        self.entityString = entityString
+    func deleteAll<T>(type: T.Type) -> Result<Void, DatabaseError> where T : Model {
+        self.entityString = String(describing: type)
+        return Result.success(())
     }
     
-    var idToDelete: String = "0"
+    var idToDelete: Int = 0
     var classToDelete: AnyClass?
-    func deleteById(idString: String, type: AnyClass) {
-        self.idToDelete = idString
+    func deleteById<T>(remoteKey: Int, type: T.Type) -> Result<Void, DatabaseError> where T : Model {
+        self.idToDelete = remoteKey
         self.classToDelete = type
+        return Result.success(())
     }
     
 }

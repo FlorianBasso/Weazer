@@ -11,8 +11,8 @@ import XCTest
 
 class RealmWeatherTests: TestCase {
     
-    // MARK: - updateProperties
-    func test_updateProperties_shouldUpdatePropertiesToWeather() {
+    // MARK: - updatePropertiesFromDatabase
+    func test_updatePropertiesFromDatabase_shouldUpdatePropertiesToWeather() {
         // Given
         let realmWeather = RealmWeather()
         let remoteKey = 2
@@ -24,7 +24,7 @@ class RealmWeatherTests: TestCase {
         let weather = Weather()
         
         // When
-        realmWeather.updateProperties(to: weather)
+        realmWeather.updatePropertiesFromDatabase(to: weather)
         
         // Then
         XCTAssertEqual(weather.remoteKey, realmWeather.remoteKey)
@@ -33,8 +33,8 @@ class RealmWeatherTests: TestCase {
         XCTAssertEqual(weather.iconName, realmWeather.iconName)
     }
     
-    // MARK: - configure
-    func test_configure_shouldUpdatePropertiesToRealmWeather() {
+    // MARK: - updatePropertiesToDatabase
+    func test_updatePropertiesToDatabase_shouldUpdatePropertiesToRealmWeather() {
         // Given
         let realmWeather = RealmWeather()
         let weather = Weather()
@@ -45,7 +45,7 @@ class RealmWeatherTests: TestCase {
         weather.iconName = "bli"
         
         // When
-        realmWeather.configure(model: weather)
+        realmWeather.updatePropertiesToDatabase(from: weather)
         
         // Then        
         XCTAssertEqual(weather.remoteKey, realmWeather.remoteKey)

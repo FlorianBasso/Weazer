@@ -11,8 +11,8 @@ import XCTest
 
 class RealmWindTests: TestCase {
     
-    // MARK: - updateProperties
-    func test_updateProperties_shouldUpdatePropertiesToUser() {
+    // MARK: - updatePropertiesFromDatabase
+    func test_updatePropertiesFromDatabase_shouldUpdatePropertiesToUser() {
         // Given
         let realmModel = RealmWind()
         let remoteKey = 2
@@ -23,7 +23,7 @@ class RealmWindTests: TestCase {
         let model = Wind()
         
         // When
-        realmModel.updateProperties(to: model)
+        realmModel.updatePropertiesFromDatabase(to: model)
         
         // Then        
         XCTAssertEqual(model.remoteKey, realmModel.remoteKey)
@@ -31,8 +31,8 @@ class RealmWindTests: TestCase {
         XCTAssertEqual(model.degree, realmModel.degree)
     }
     
-    // MARK: - configure
-    func test_configure_shouldUpdatePropertiesToRealmUser() {
+    // MARK: - updatePropertiesToDatabase
+    func test_updatePropertiesToDatabase_shouldUpdatePropertiesToRealmUser() {
         // Given
         let realmModel = RealmWind()
         let model = Wind()
@@ -42,7 +42,7 @@ class RealmWindTests: TestCase {
         model.degree = 25
         
         // When
-        realmModel.configure(model: model)
+        realmModel.updatePropertiesToDatabase(from: model)
         
         // Then        
         XCTAssertEqual(model.remoteKey, realmModel.remoteKey)
