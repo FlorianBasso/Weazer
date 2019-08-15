@@ -141,29 +141,33 @@ class GetCurrentWeatherDataEndpointTests: TestCase {
     
     
     // MARK: - parsingResponseObject
-    func test_parsingResponseObject_shouldReturnNil_whenJsonIsIncorrect() {
+    func test_parsingResponseObject_shouldReturnParsingError_whenJsonIsIncorrect() {
         
         // Given
         let endpoint = GetCurrentWeatherDataEndpoint(cityName: nil, coordinate: nil)
         
         // When
-        let response = endpoint.parsing(responseObject: nil)
+        let result = endpoint.parsing(responseObject: nil)
         
         // Then
-        XCTAssertNil(response)
+        XCTAssertEqual(result, Result.failure(APIError.parsingError))
     }
     
-    func test_parsingResponseObject_shouldReturnReposArray_whenJsonIsCorrect() {
+    func test_parsingResponseObject_shouldReturnForecast_whenJsonIsCorrect() {
         // Given
         let endpoint = GetCurrentWeatherDataEndpoint(cityName: nil, coordinate: nil)
         let responseObject: [AnyHashable: Any] = [:]
         
         // When
-        let response = endpoint.parsing(responseObject: responseObject)
+        let result = endpoint.parsing(responseObject: responseObject)
         
         // Then
-        XCTAssertNotNil(response)
-        XCTAssert(response is Forecast)
+        do {
+            _ = try result.get()            
+        } catch {
+            XCTFail()
+        }
+        
     }
     
 }

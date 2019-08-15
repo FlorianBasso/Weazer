@@ -70,8 +70,7 @@ class CityCellViewModelTests: TestCase {
         // Given
         let forecast = Forecast()
         let cellViewModel = self.cellViewModelToTest()
-        self.api.callbackSucceed = true
-        self.api.mockResponseObject = forecast
+        self.api.mockResult = Result.success(forecast)
         
         // When
         cellViewModel.didSelect(fromVC: nil)

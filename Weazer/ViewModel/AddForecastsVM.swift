@@ -112,22 +112,23 @@ extension AddForecastsVM: CLLocationManagerDelegate {
             // Get forecast for user position            
             let endpoint = GetCurrentWeatherDataEndpoint(cityName: nil,
                                                          coordinate: (lat: currentLocation.coordinate.latitude, long: currentLocation.coordinate.longitude))
-            AppEnvironment.shared().api?.request(with: endpoint, success: { (responseObject) in
-                
-                if let forecast = responseObject as? Forecast {                    
+            
+            
+            let result = AppEnvironment.shared().api?.request(with: endpoint, resultType: Forecast.self)
+            
+            do {
+                if let forecast = try result?.get() {
                     forecast.forUserPosition = true
-                    
                     // Save forecast on database
-                    AppEnvironment.shared().database?.insertOrUpdate(item: forecast)
+                    _ = AppEnvironment.shared().database?.insertOrUpdate(item: forecast)
                 }
                 
                 // Pop to previous screen
                 AppEnvironment.shared().routing?.route(to: PopRoutingEntry())
-                
-            }, failure: { (operation, error, statusCode) in
+            }
+            catch {
                 // TODO: Handles error
-            })
-            
+            }                       
         }
     }
     

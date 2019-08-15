@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -23,7 +23,7 @@
 		12C270C22163A2E60055132B /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C270C12163A2E60055132B /* API.swift */; };
 		12C270C42163A3C50055132B /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C270C32163A3C50055132B /* APIEndpoint.swift */; };
 		12C270C62163A3E90055132B /* APIMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C270C52163A3E90055132B /* APIMethod.swift */; };
-		12C270C82163A4A90055132B /* APIRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C270C72163A4A90055132B /* APIRequester.swift */; };
+		12C270C82163A4A90055132B /* AlamofireAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C270C72163A4A90055132B /* AlamofireAPI.swift */; };
 		12C270CB2163AC250055132B /* GetCurrentWeatherDataEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C270CA2163AC250055132B /* GetCurrentWeatherDataEndpoint.swift */; };
 		12C270CE2163B2760055132B /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C270CD2163B2760055132B /* TableViewModel.swift */; };
 		12C270D12163B3040055132B /* ScrollableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C270D02163B3040055132B /* ScrollableViewModel.swift */; };
@@ -54,6 +54,7 @@
 		12C27112216653520055132B /* PopRoutingEntryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C27111216653520055132B /* PopRoutingEntryTests.swift */; };
 		12C27115216655C20055132B /* GetCurrentWeatherDataEndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C27114216655C20055132B /* GetCurrentWeatherDataEndpointTests.swift */; };
 		3F784CD154FE0337F9C4E923 /* Pods_WeazerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B2C9B2587CA592011EF99D0 /* Pods_WeazerTests.framework */; };
+		4F5BDCFB23049EBF00269B48 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5BDCFA23049EBF00269B48 /* APIError.swift */; };
 		B102A72822610CD400963E62 /* SunInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102A72722610CD400963E62 /* SunInfo.swift */; };
 		B102A72A22610D7200963E62 /* Wind.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102A72922610D7200963E62 /* Wind.swift */; };
 		B102A72C22610DA600963E62 /* ForecastMainInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102A72B22610DA600963E62 /* ForecastMainInfo.swift */; };
@@ -136,7 +137,7 @@
 		12C270C12163A2E60055132B /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		12C270C32163A3C50055132B /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		12C270C52163A3E90055132B /* APIMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIMethod.swift; sourceTree = "<group>"; };
-		12C270C72163A4A90055132B /* APIRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequester.swift; sourceTree = "<group>"; };
+		12C270C72163A4A90055132B /* AlamofireAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireAPI.swift; sourceTree = "<group>"; };
 		12C270CA2163AC250055132B /* GetCurrentWeatherDataEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCurrentWeatherDataEndpoint.swift; sourceTree = "<group>"; };
 		12C270CD2163B2760055132B /* TableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
 		12C270D02163B3040055132B /* ScrollableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableViewModel.swift; sourceTree = "<group>"; };
@@ -168,6 +169,7 @@
 		12C27111216653520055132B /* PopRoutingEntryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopRoutingEntryTests.swift; sourceTree = "<group>"; };
 		12C27114216655C20055132B /* GetCurrentWeatherDataEndpointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCurrentWeatherDataEndpointTests.swift; sourceTree = "<group>"; };
 		2A3BA2D9C969530E7998BA1A /* Pods_Weazer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Weazer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F5BDCFA23049EBF00269B48 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		63E2FC3485053FF6D75954B5 /* Pods-Weazer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weazer.release.xcconfig"; path = "Pods/Target Support Files/Pods-Weazer/Pods-Weazer.release.xcconfig"; sourceTree = "<group>"; };
 		672D65BE04D1ED712C209979 /* Pods-WeazerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeazerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeazerTests/Pods-WeazerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7B2C9B2587CA592011EF99D0 /* Pods_WeazerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeazerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -372,7 +374,8 @@
 				12C270C12163A2E60055132B /* API.swift */,
 				12C270C32163A3C50055132B /* APIEndpoint.swift */,
 				12C270C52163A3E90055132B /* APIMethod.swift */,
-				12C270C72163A4A90055132B /* APIRequester.swift */,
+				12C270C72163A4A90055132B /* AlamofireAPI.swift */,
+				4F5BDCFA23049EBF00269B48 /* APIError.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -790,23 +793,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Weazer/Pods-Weazer-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
-				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
-				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Weazer/Pods-Weazer-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Weazer/Pods-Weazer-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Weazer/Pods-Weazer-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Weazer/Pods-Weazer-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EE0F1385B19B1B0E75B204CF /* [CP] Check Pods Manifest.lock */ = {
@@ -851,7 +847,7 @@
 				B1BFABE72262493F00F7AD36 /* ImageManager+SDWebImageManager.swift in Sources */,
 				12C270E62163C4020055132B /* SearchableTVM.swift in Sources */,
 				B102A72C22610DA600963E62 /* ForecastMainInfo.swift in Sources */,
-				12C270C82163A4A90055132B /* APIRequester.swift in Sources */,
+				12C270C82163A4A90055132B /* AlamofireAPI.swift in Sources */,
 				12765E3D21636D9700A740CF /* AppDelegate.swift in Sources */,
 				12C270B32163817D0055132B /* RealmModel.swift in Sources */,
 				12C270CB2163AC250055132B /* GetCurrentWeatherDataEndpoint.swift in Sources */,
@@ -877,6 +873,7 @@
 				B102A7302261BC3D00963E62 /* RealmSunInfo.swift in Sources */,
 				12C270DA2163B4B60055132B /* NavigationStyle.swift in Sources */,
 				B1BFABEB2262626F00F7AD36 /* ForecastDetailRoutingEntry.swift in Sources */,
+				4F5BDCFB23049EBF00269B48 /* APIError.swift in Sources */,
 				12C270C42163A3C50055132B /* APIEndpoint.swift in Sources */,
 				B102A7382261D90900963E62 /* CityCellViewModel.swift in Sources */,
 				B102A72E22610E1D00963E62 /* Weather.swift in Sources */,

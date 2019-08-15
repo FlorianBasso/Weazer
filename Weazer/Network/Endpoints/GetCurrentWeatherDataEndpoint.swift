@@ -10,6 +10,8 @@ import Foundation
 
 class GetCurrentWeatherDataEndpoint: APIEndpoint {
     
+    typealias Response = Forecast
+    
     // MARK: - Properties
     struct Constants {
         static let query = "q"
@@ -29,9 +31,9 @@ class GetCurrentWeatherDataEndpoint: APIEndpoint {
         return .get
     }
     
-    var entryParameters: [AnyHashable : Any]? {
+    var entryParameters: [String : Any]? {
         
-        var parameters: [AnyHashable : Any] = [Constants.appId: "c3d25de6aa2d5fa2c7fa3232cb8a7429",
+        var parameters: [String : Any] = [Constants.appId: "c3d25de6aa2d5fa2c7fa3232cb8a7429",
                                                Constants.units: Constants.imperial]
         
         if let cityName = self.cityName {
@@ -61,10 +63,12 @@ class GetCurrentWeatherDataEndpoint: APIEndpoint {
     }
     
     // MARK: - Parsing
-    
-    func parsing(responseObject: Any?) -> Any? {
-        guard let dict = responseObject as? [AnyHashable: Any] else { return nil }
-        return Forecast(data: dict)
+    func parsing(responseObject: Any?) -> Result<Forecast, APIError> {
+        guard let dict = responseObject as? [AnyHashable: Any] else {
+            return Result.failure(.parsingError)
+            
+        }
+        return Result.success(Forecast(data: dict))
     }
     
     // MARK: - Error

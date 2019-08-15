@@ -33,18 +33,28 @@ class CityCellViewModel: TableCellViewModel {
         // Calls API to get forecast for city
         let endpoint = GetCurrentWeatherDataEndpoint(cityName: self.cityName,
                                                      coordinate: nil)
-        AppEnvironment.shared().api?.request(with: endpoint, success: { (responseObject) in
+        
+        guard let api = AppEnvironment.shared().api else {
+            return
+        }
+        
+        api.asyncCall(thread: .utility) {
+            let result = api.request(with: endpoint, resultType: Forecast.self)                
             
-            if let forecast = responseObject as? Forecast {
+            do {
+                let forecast = try result.get()
                 // Save forecast on database
-                AppEnvironment.shared().database?.insertOrUpdate(item: forecast)
+                _ = AppEnvironment.shared().database?.insertOrUpdate(item: forecast)
+                
+                
+                // Pop to previous screen
+                AppEnvironment.shared().routing?.route(to: PopRoutingEntry(), from: fromVC)
             }
-            
-            // Pop to previous screen
-            AppEnvironment.shared().routing?.route(to: PopRoutingEntry(), from: fromVC)
-        }, failure: { (operation, error, statusCode) in
-            // TODO: Handles error
-        })
+            catch {
+                // TODO: Handles error
+            }
+        }
+        
     }
     
 }

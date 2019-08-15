@@ -8,12 +8,12 @@
 
 import Foundation
 
-protocol APIEndpoint {
+public protocol APIEndpoint {
+    associatedtype Response
     
     var path: String { get }
     var method: APIMethod { get }
-    var entryParameters: [AnyHashable: Any]? { get }
-    
-    func parsing(responseObject: Any?) -> Any?
+    var entryParameters: [String: Any]? { get }
+    func parsing(responseObject: Any?) -> Result<Response, APIError>
     func errorMessage(statusCode: Int) -> String
 }

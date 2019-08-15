@@ -12,7 +12,7 @@ import SDWebImage
 extension AppEnvironment {
     
     func configureEnvironment(with environment: Environment?) {
-        self.api = APIRequester()
+        self.api = AlamofireAPI()
         self.routing = Routing()
         self.database = RealmDatabase()
         self.imageManager = SDWebImageManager.shared()

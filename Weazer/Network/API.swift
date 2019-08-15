@@ -8,45 +8,15 @@
 
 import Foundation
 
-protocol API {
+
+public protocol API {
     
-    func loggedGET(_ URLString: String,
-                   parameters: Any?,
-                   success successBlock: ((_ operation: URLSessionTask?, _ responseObject: Any?) -> Void)?,
-                   failure: ((_ operation: URLSessionTask?, _ error: Error?) -> Void)?) -> URLSessionDataTask?
-    
-    func loggedPOST(_ URLString: String,
-                    parameters: Any?,
-                    success successBlock: ((_ operation: URLSessionTask?, _ responseObject: Any?) -> Void)?,
-                    failure: ((_ operation: URLSessionTask?, _ error: Error?) -> Void)?) -> URLSessionDataTask?
-    
-    func loggedPUT(_ URLString: String,
-                   parameters: Any?,
-                   success successBlock: ((_ operation: URLSessionTask?, _ responseObject: Any?) -> Void)?,
-                   failure: ((_ operation: URLSessionTask?, _ error: Error?) -> Void)?) -> URLSessionDataTask?
-    
-    func loggedDELETE(_ URLString: String,
-                      parameters: Any?,
-                      success successBlock: ((_ operation: URLSessionTask?, _ responseObject: Any?) -> Void)?,
-                      failure: ((_ operation: URLSessionTask?, _ error: Error?) -> Void)?) -> URLSessionDataTask?
-    
-    
-    var lastEndpoint: APIEndpoint? { get set }
-    var lastTask: URLSessionDataTask? { get set }    
+    var lastTask: URLSessionTask? { get set }    
     var basePath: String { get }
+    func asyncCall(thread: DispatchQoS.QoSClass, call: @escaping () -> ())
     
-    func request(with endpoint: APIEndpoint, callback: ((_ statusCode: Int) -> Void)?)
-    func request(with endpoint: APIEndpoint, success: ((_ success: Bool) -> Void)?)
-    func request(with endpoint: APIEndpoint, success: ((_ responseObject: Any?) -> Void)?,
-                 failure: ((_ operation: URLSessionTask?, _ error: Error?, _ statusCode: Int) -> Void)?)
-    
-    
-    func handleSuccess(withResponseObject responseObject: Any?,
-                       endpoint: APIEndpoint, success: ((_ responseObject: Any?) -> Void)?)
-    
-    func handleFailure(withOperation operation: URLSessionTask?,
-                       error: Error?,
-                       failure: ((_ operation: URLSessionTask?, _ error: Error?, _ statusCode: Int) -> Void)?)
+    // !!!! Every call of request must be done in a asyncCall !!!!
+    func request<T: APIEndpoint, U: Any>(with endpoint: T,
+                                         resultType: U.Type) -> Swift.Result<U, APIError>
     
 }
-

@@ -1,19 +1,5 @@
 PODS:
-  - AFNetworking (3.2.1):
-    - AFNetworking/NSURLSession (= 3.2.1)
-    - AFNetworking/Reachability (= 3.2.1)
-    - AFNetworking/Security (= 3.2.1)
-    - AFNetworking/Serialization (= 3.2.1)
-    - AFNetworking/UIKit (= 3.2.1)
-  - AFNetworking/NSURLSession (3.2.1):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.2.1)
-  - AFNetworking/Security (3.2.1)
-  - AFNetworking/Serialization (3.2.1)
-  - AFNetworking/UIKit (3.2.1):
-    - AFNetworking/NSURLSession
+  - Alamofire (4.8.2)
   - Realm (3.9.0):
     - Realm/Headers (= 3.9.0)
   - Realm/Headers (3.9.0)
@@ -22,23 +8,23 @@ PODS:
   - SDWebImage/Core (4.4.5)
 
 DEPENDENCIES:
-  - AFNetworking (~> 3.2.1)
+  - Alamofire (~> 4.8.2)
   - RealmSwift (~> 3.9.0)
   - SDWebImage/Core (~> 4.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - AFNetworking
+    - Alamofire
     - Realm
     - RealmSwift
     - SDWebImage
 
 SPEC CHECKSUMS:
-  AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   Realm: 3d36f208bf3aff8335dc3298742140182bde4edb
   RealmSwift: aa4d11917bfcfaa3ed51f219102a487ecd895447
   SDWebImage: ecc03494e973b93b80213649d32175f8d2d17d4d
 
-PODFILE CHECKSUM: 9a20c4a2cd16ef7972ce1e610952f567318392a7
+PODFILE CHECKSUM: 46ac5bed37f8d8a2fcaac2f82dacf3986210a15a
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.7.3
