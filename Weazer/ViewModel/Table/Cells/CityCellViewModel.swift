@@ -48,7 +48,12 @@ class CityCellViewModel: TableCellViewModel {
                 
                 
                 // Pop to previous screen
-                AppEnvironment.shared().routing?.route(to: PopRoutingEntry(), from: fromVC)
+                guard let fromNVC = fromVC?.navigationController else {
+                        return
+                }
+                
+                let popNavStyle = PopNavigationStyle(fromNVC: fromNVC)
+                _ = AppEnvironment.shared().routing?.route(navigationStyle: popNavStyle, animated: true)                                      
             }
             catch {
                 // TODO: Handles error

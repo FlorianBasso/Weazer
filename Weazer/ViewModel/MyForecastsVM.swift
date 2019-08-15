@@ -94,8 +94,15 @@ class MyForecastsVM: SearchableTVM {
     // MARK: - Navigation
     @objc func displayAddCitiesScreen() {
         // Navigate to find repo screen
-        let findReposEntry = AddForecastsRoutingEntry()
-        AppEnvironment.shared().routing?.route(to: findReposEntry)
+        guard let routing = AppEnvironment.shared().routing,
+            let fromNVC = routing.visibleViewController()?.navigationController else {
+                return
+        }
+        
+        let findReposEntry = AddForecastsRoutingEntry()                
+        let pushNavStyle = PushNavigationStyle(fromNVC: fromNVC,
+                                               routingEntry: findReposEntry)
+        _ = routing.route(navigationStyle: pushNavStyle, animated: true)
     }
     
     // MARK: - Search
@@ -144,7 +151,7 @@ class MyForecastsVM: SearchableTVM {
                 }
                                 
                 // Deletes from database                
-                AppEnvironment.shared().database?.deleteById(remoteKey: forecast.remoteKey, type: Forecast.self)
+                _ = AppEnvironment.shared().database?.deleteById(remoteKey: forecast.remoteKey, type: Forecast.self)
             }
         }
                 

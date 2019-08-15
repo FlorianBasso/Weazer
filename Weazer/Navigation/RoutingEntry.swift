@@ -12,8 +12,5 @@ import UIKit
 protocol RoutingEntry {
     
     var viewController: UIViewController? { get }
-    var navigationStyle: NavigationStyle { get }
-    var animated: Bool { get }    
-    var completionBlock: (() -> Void)? { get set }
-    var url: String? { get }
+    var completionBlock: (() -> Void)? { get set }    
 }

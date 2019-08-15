@@ -72,11 +72,19 @@ class ForecastCellViewModelTests: TestCase {
         let cellViewModel = self.cellViewModelToTest()
         cellViewModel.shouldHandleSelection = true
         
+        let fromVC = UIViewController()
+        _ = UINavigationController(rootViewController: fromVC)
+        
         // When
-        cellViewModel.didSelect(fromVC: nil)
+        cellViewModel.didSelect(fromVC: fromVC)
         
         // Then
-        XCTAssert(self.routing.lastRoutingEntry is ForecastDetailRoutingEntry)
+        guard let pushNavStyle = self.routing.lastNavigationStyle as? PushNavigationStyle else {
+            XCTFail()
+            return
+        }
+        
+        XCTAssert(pushNavStyle.routingEntry is ForecastDetailRoutingEntry)
     }
     
     // MARK: - Helper Method

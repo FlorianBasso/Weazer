@@ -74,11 +74,13 @@ class AddForecastsVM: SearchableTVM {
             
         case .denied, .restricted:
             // Redirect to settings so the user can update the permission
-            let routingEntry = OpenUrlRoutingEntry(url: UIApplication.openSettingsURLString)
-            AppEnvironment.shared().routing?.route(to: routingEntry)
+            let openUrlNavStyle = URLNavigationStyle(urlString: UIApplication.openSettingsURLString)
+            _ = AppEnvironment.shared().routing?.route(navigationStyle: openUrlNavStyle, animated: true)
             return
         case .authorizedAlways, .authorizedWhenInUse:
             break
+        @unknown default:
+            return
         }
         
         self.locationManager.delegate = self
@@ -124,7 +126,13 @@ extension AddForecastsVM: CLLocationManagerDelegate {
                 }
                 
                 // Pop to previous screen
-                AppEnvironment.shared().routing?.route(to: PopRoutingEntry())
+                guard let routing = AppEnvironment.shared().routing,
+                    let fromNVC = routing.visibleViewController()?.navigationController else {
+                        return
+                }
+                
+                let popNavStyle = PopNavigationStyle(fromNVC: fromNVC)
+                _ = routing.route(navigationStyle: popNavStyle, animated: true)
             }
             catch {
                 // TODO: Handles error

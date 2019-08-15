@@ -10,9 +10,8 @@ import Foundation
 import UIKit
 
 protocol Navigator {
-    var lastRoutingEntry: RoutingEntry? { get set }
+    var lastNavigationStyle: NavigationStyle? { get set }
     func visibleViewController() -> UIViewController?
     func visibleViewController(_ rootViewController: UIViewController?) -> UIViewController?
-    func route(to entry: RoutingEntry)
-    func route(to entry: RoutingEntry, from fromViewController: UIViewController?)
+    func route(navigationStyle: NavigationStyle, animated: Bool) -> Navigator
 }

@@ -72,13 +72,16 @@ class CityCellViewModelTests: TestCase {
         let cellViewModel = self.cellViewModelToTest()
         self.api.mockResult = Result.success(forecast)
         
+        let fromVC = UIViewController()
+        _ = UINavigationController(rootViewController: fromVC)
+        
         // When
-        cellViewModel.didSelect(fromVC: nil)
+        cellViewModel.didSelect(fromVC: fromVC)
         
         // Then
         XCTAssert(self.api.lastEndpoint is GetCurrentWeatherDataEndpoint)
         XCTAssertEqual(self.database.itemInserted as! Forecast, forecast)
-        XCTAssert(self.routing.lastRoutingEntry is PopRoutingEntry)
+        XCTAssert(self.routing.lastNavigationStyle is PopNavigationStyle)
     }
     
     // MARK: - Helper Method

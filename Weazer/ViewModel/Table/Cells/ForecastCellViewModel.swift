@@ -68,10 +68,20 @@ class ForecastCellViewModel: TableCellViewModel {
     
     override func didSelect(fromVC: UIViewController?) {
         if self.shouldHandleSelection {
+            
+            guard let fromVNC = fromVC?.navigationController else {
+                return
+            }
+            
             // Redirect to forecast detailed screen
             let detailRoutingEntry = ForecastDetailRoutingEntry(forecast: self.forecast,
                                                                 unitFormatIsImperial: self.unitFormatIsImperial)
-            AppEnvironment.shared().routing?.route(to: detailRoutingEntry, from: fromVC)
+            
+            let pushNavStyle = PushNavigationStyle(fromNVC: fromVNC,
+                                                   routingEntry: detailRoutingEntry)
+                        
+            _ = AppEnvironment.shared().routing?.route(navigationStyle: pushNavStyle,
+                                                       animated: true)
         }        
     }
     

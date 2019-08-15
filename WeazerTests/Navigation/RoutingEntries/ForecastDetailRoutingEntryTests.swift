@@ -27,29 +27,6 @@ class ForecastDetailRoutingEntryTests: TestCase {
         XCTAssert(forecastsTVC.viewModel is ForecastDetailVM)
     }
     
-    // MARK: - navigationStyle
-    func test_navigationStyle_shouldReturnPush() {
-        // Given
-        let routingEntry = self.routingEntryToTest()
-        
-        // When
-        let navigationStyle = routingEntry.navigationStyle
-        
-        // Then
-        XCTAssert(navigationStyle == .push)
-    }
-    
-    // MARK: - animated
-    func test_animated_shouldReturnTrue() {
-        // Given
-        let routingEntry = self.routingEntryToTest()
-        
-        // When
-        let animated = routingEntry.animated
-        
-        // Then
-        XCTAssert(animated)
-    }
     
     // MARK: - completionBlock
     func test_completionBlock_shouldReturnNil() {
@@ -62,19 +39,7 @@ class ForecastDetailRoutingEntryTests: TestCase {
         // Then
         XCTAssertNil(completionBlock)
     }
-    
-    // MARK: - url
-    func test_url_shouldReturnNil() {
-        // Given
-        let routingEntry = self.routingEntryToTest()
-        
-        // When
-        let url = routingEntry.url
-        
-        // Then
-        XCTAssertNil(url)
-    }
-    
+      
     // MARK: - init
     func test_init_shouldSetProperties() {
         // Given

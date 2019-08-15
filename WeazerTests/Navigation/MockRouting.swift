@@ -11,25 +11,27 @@ import UIKit
 @testable import Weazer
 
 class MockRouting: Navigator {
-    
-    var lastRoutingEntry: RoutingEntry?
+            
+    var lastNavigationStyle: NavigationStyle?
     
     var mockVisibleViewController = UIViewController()
+    var visibleVCShouldHaveNavController = false
     
     func visibleViewController() -> UIViewController? {
+        
+        if visibleVCShouldHaveNavController {
+            _ = UINavigationController(rootViewController: mockVisibleViewController)
+        }
+        
         return mockVisibleViewController
     }
     
     func visibleViewController(_ rootViewController: UIViewController?) -> UIViewController? {
-        return mockVisibleViewController
+        return visibleViewController()
     }
     
-    func route(to entry: RoutingEntry) {
-        self.route(to: entry, from: nil)
-    }
-    
-    func route(to entry: RoutingEntry, from fromViewController: UIViewController?) {
-        self.lastRoutingEntry = entry
-        entry.completionBlock?()
+    func route(navigationStyle: NavigationStyle, animated: Bool) -> Navigator {
+        self.lastNavigationStyle = navigationStyle
+        return self
     }
 }

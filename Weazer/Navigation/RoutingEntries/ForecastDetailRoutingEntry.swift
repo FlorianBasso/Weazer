@@ -14,27 +14,14 @@ class ForecastDetailRoutingEntry: RoutingEntry {
     // MARK: - Properties
     let forecast: Forecast
     var unitFormatIsImperial: Bool
-    
-    var url: String?
-    
+    var completionBlock: (() -> Void)?
     var viewController: UIViewController? {
         let viewModel = ForecastDetailVM(forecast: self.forecast,
                                          unitFormatIsImperial: self.unitFormatIsImperial)
         let forecastsTVC = ForecastsTVC(viewModel: viewModel)
         return forecastsTVC
     }
-    
-    var navigationStyle: NavigationStyle {
-        return .push
-    }
-    
-    var animated: Bool {
-        return true
-    }
-    
-    var completionBlock: (() -> Void)?
-    
-    
+            
     // MARK: - Init
     init(forecast: Forecast, unitFormatIsImperial: Bool) {
         self.forecast = forecast

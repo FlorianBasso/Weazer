@@ -109,12 +109,18 @@ class MyForecastsVMTests: TestCase {
     func test_displayAddCitiesScreen_shouldRouteToAddForecastsRoutingEntry() {
         // Given
         let viewModel = MyForecastsVM()
+        self.routing.visibleVCShouldHaveNavController = true
         
         // When
         viewModel.displayAddCitiesScreen()
         
         // Then
-        XCTAssert(self.routing.lastRoutingEntry is AddForecastsRoutingEntry)
+        guard let pushNavStyle = self.routing.lastNavigationStyle as? PushNavigationStyle else {
+            XCTFail()
+            return
+        }
+        
+        XCTAssert(pushNavStyle.routingEntry is AddForecastsRoutingEntry)        
     }
     
     // MARK: - filterContentForSearchText

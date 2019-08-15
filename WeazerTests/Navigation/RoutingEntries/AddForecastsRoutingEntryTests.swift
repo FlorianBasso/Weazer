@@ -26,31 +26,7 @@ class AddForecastsRoutingEntryTests: TestCase {
         }
         XCTAssert(forecastsTVC.viewModel is AddForecastsVM)
     }
-    
-    // MARK: - navigationStyle
-    func test_navigationStyle_shouldReturnPush() {
-        // Given
-        let routingEntry = AddForecastsRoutingEntry()
         
-        // When
-        let navigationStyle = routingEntry.navigationStyle
-        
-        // Then
-        XCTAssert(navigationStyle == .push)
-    }
-    
-    // MARK: - animated
-    func test_animated_shouldReturnTrue() {
-        // Given
-        let routingEntry = AddForecastsRoutingEntry()
-        
-        // When
-        let animated = routingEntry.animated
-        
-        // Then
-        XCTAssert(animated)
-    }
-    
     // MARK: - completionBlock
     func test_completionBlock_shouldReturnNil() {
         // Given
