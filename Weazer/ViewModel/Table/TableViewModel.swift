@@ -34,6 +34,17 @@ class TableViewModel: ScrollableViewModel {
             }
         }
     }
+    
+    func cellViewModel(indexPath: IndexPath) -> TableCellViewModel? {
+        if self.sections.count > 0 && self.sections.count > indexPath.section,
+            let currentSection = self.sections[indexPath.section] as? TableSection,
+            currentSection.items.count > 0 && currentSection.items.count > indexPath.row,
+            let item = currentSection.items[indexPath.row] as? TableCellViewModel {
+            
+            return item
+        }
+        return nil
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -44,7 +55,6 @@ extension TableViewModel: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         if self.sections.count > section,
             let currentSection = self.sections[section] as? TableSection {
             return currentSection.items.count
@@ -56,23 +66,19 @@ extension TableViewModel: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = UITableViewCell(style: .default, reuseIdentifier: "")
         
-        if self.sections.count > 0 && self.sections.count > indexPath.section {
+        if let item = cellViewModel(indexPath: indexPath) {
+            item.indexPath = indexPath
+            let reuseIdentifier = item.reuseIdentifier
             
-            if let currentSection = self.sections[indexPath.section] as? TableSection,
-                let item = currentSection.items[indexPath.row] as? TableCellViewModel {
-                item.indexPath = indexPath
-                let reuseIdentifier = item.reuseIdentifier
-                
-                if reuseIdentifier == String(describing:UITableViewCell.self) {
-                    cell = UITableViewCell(style: .value1,
-                                           reuseIdentifier: reuseIdentifier)
-                } else {
-                    cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                }
-                
-                item.configureCell(cell)
+            if reuseIdentifier == String(describing:UITableViewCell.self) {
+                cell = UITableViewCell(style: .value1,
+                                       reuseIdentifier: reuseIdentifier)
+            } else {
+                cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
             }
-        }
+            
+            item.configureCell(cell)
+        }        
         
         return cell
     }
@@ -82,24 +88,15 @@ extension TableViewModel: UITableViewDataSource {
 extension TableViewModel: UITableViewDelegate {       
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if self.sections.count > 0 && self.sections.count > indexPath.section {
-            
-            if let currentSection = self.sections[indexPath.section] as? TableSection,
-                let item = currentSection.items[indexPath.row] as? TableCellViewModel {                
-                return item.cellHeight(tableView.frame.size)
-            }
+        if let item = cellViewModel(indexPath: indexPath) {
+            return item.cellHeight(tableView.frame.size)
         }
         return 0
     }
     
     public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        if self.sections.count > 0 && self.sections.count > indexPath.section {
-            
-            if let currentSection = self.sections[indexPath.section] as? TableSection,
-                let item = currentSection.items[indexPath.row] as? TableCellViewModel {
-                
-                return item.estimatedHeight()
-            }
+        if let item = cellViewModel(indexPath: indexPath) {
+            return item.estimatedHeight()
         }
         return 0
     }
@@ -107,43 +104,24 @@ extension TableViewModel: UITableViewDelegate {
     open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Override this method to do something special when a cell is Selected
         
-        if self.sections.count > 0 && self.sections.count > indexPath.section {
-            if let currentSection = self.sections[indexPath.section] as? TableSection,
-                let item = currentSection.items[indexPath.row] as? TableCellViewModel,
-                let vc = self.delegate as? UIViewController  {
-                item.didSelect(fromVC: vc)
-            }
+        if let item = cellViewModel(indexPath: indexPath),
+            let vc = self.delegate as? UIViewController {
+            item.didSelect(fromVC: vc)
         }
     }
     
     public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
-        if self.sections.count > 0 && self.sections.count > indexPath.section && self.tableView(tableView, numberOfRowsInSection: indexPath.section) > 0 {
-            
-            if let currentSection = self.sections[indexPath.section] as? TableSection {
-                
-                if currentSection.items.count > 0 && currentSection.items.count > indexPath.row,
-                    let item = currentSection.items[indexPath.row] as? TableCellViewModel {
-                    item.willDisplay(cell)
-                }
-            }
+        if let item = cellViewModel(indexPath: indexPath) {
+            item.willDisplay(cell)
         }
-        
     }
     
     public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
-        if self.sections.count > 0 && self.sections.count > indexPath.section {
-            
-            if let currentSection = self.sections[indexPath.section] as? TableSection {
-                
-                if currentSection.items.count > 0 && currentSection.items.count > indexPath.row,
-                    let item = currentSection.items[indexPath.row] as? TableCellViewModel {
-                    item.didEndDisplaying(cell)
-                }
-            }
+        if let item = cellViewModel(indexPath: indexPath) {
+            item.didEndDisplaying(cell)
         }
-        
     }
     
 }
