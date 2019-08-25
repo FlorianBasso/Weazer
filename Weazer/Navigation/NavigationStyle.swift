@@ -26,7 +26,11 @@ struct PushNavigationStyle: NavigationStyle {
     
     func navigate(animated: Bool) {
         guard let toVC = self.routingEntry?.viewController else { return }
-        self.fromNVC.pushViewController(toVC, animated: animated)
+        
+        DispatchQueue.main.async {
+            self.fromNVC.pushViewController(toVC, animated: animated)
+        }
+        
     }
 }
 
@@ -39,7 +43,9 @@ struct PopNavigationStyle: NavigationStyle {
     }
     
     func navigate(animated: Bool) {
-        fromNVC.popViewController(animated: animated)
+        DispatchQueue.main.async{
+            self.fromNVC.popViewController(animated: animated)
+        }
     }        
 }
 
@@ -56,11 +62,14 @@ struct ModalNavigationStyle: NavigationStyle {
     
     func navigate(animated: Bool) {
         if let toVC = self.routingEntry?.viewController {
-            self.fromVC.present(toVC,
-                                animated: animated,
-                                completion: {() -> Void in
-                                    self.routingEntry?.completionBlock?()
-            })
+            
+            DispatchQueue.main.async{
+                self.fromVC.present(toVC,
+                                    animated: animated,
+                                    completion: {() -> Void in
+                                        self.routingEntry?.completionBlock?()
+                })
+            }
         }
     }
 }
@@ -77,9 +86,11 @@ struct DismissNavigationStyle: NavigationStyle {
     }
     
     func navigate(animated: Bool) {
-        self.fromVC.dismiss(animated: animated, completion: {() -> Void in
-            self.routingEntry?.completionBlock?()
-        })
+        DispatchQueue.main.async{
+            self.fromVC.dismiss(animated: animated, completion: {() -> Void in
+                self.routingEntry?.completionBlock?()
+            })
+        }
     }
 }
 
@@ -92,12 +103,14 @@ struct URLNavigationStyle: NavigationStyle {
     }
     
     func navigate(animated: Bool) {
-        if let finalUrl = URL(string: self.urlString),
-            UIApplication.shared.canOpenURL(finalUrl) {
-            UIApplication.shared.open(finalUrl,
-                                      options: [:],
-                                      completionHandler: nil)            
-        }
+        DispatchQueue.main.async {
+            if let finalUrl = URL(string: self.urlString),
+                UIApplication.shared.canOpenURL(finalUrl) {
+                UIApplication.shared.open(finalUrl,
+                                          options: [:],
+                                          completionHandler: nil)
+            }
+        }       
     }
 }
 
