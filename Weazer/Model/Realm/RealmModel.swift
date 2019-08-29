@@ -15,25 +15,30 @@ class RealmModel: Object {
     // MARK: - Object
     
     override class func primaryKey() -> String? {
-        return #keyPath(RealmModel.remoteKey)
+        return #keyPath(RealmModel.id)
     }
     
     // MARK: - YMMRealmObject
     
-    @objc dynamic var remoteKey: Int = 0    
+    @objc dynamic var id: Int = 0
     
     func entity<T: Model>(forType: T.Type) -> T {
-        let model = T.init()
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .secondsSince1970  
+        
+        let data = try! JSONSerialization.data(withJSONObject: [:], options: [])
+        let model = try! decoder.decode(T.self, from: data)
         self.updatePropertiesFromDatabase(to: model)
         return model
     }
     
     func updatePropertiesToDatabase<T: Model>(from model: T) {
-        self.remoteKey = model.remoteKey
+        // Override in subclasses
     }
     
     func updatePropertiesFromDatabase<T: Model>(to model: T) {
-        model.remoteKey = self.remoteKey
+        // Override in subclasses
     }
     
 }

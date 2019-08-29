@@ -14,6 +14,6 @@ public protocol APIEndpoint {
     var path: String { get }
     var method: APIMethod { get }
     var entryParameters: [String: Any]? { get }
-    func parsing(responseObject: Any?) -> Result<Response, APIError>
+    func parsing(responseObject: Data?) -> Result<Response, APIError>
     func errorMessage(statusCode: Int) -> String
 }

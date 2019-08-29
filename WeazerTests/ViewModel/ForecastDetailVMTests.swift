@@ -15,13 +15,13 @@ class ForecastDetailVMTests: TestCase {
     func test_title_shouldReturnCorrectText() {
         // Given
         let viewModel = self.viewModelToTest()
-        viewModel.forecast.cityName = "Paris"
+        viewModel.forecast.name = "Paris"
         
         // When
         let title = viewModel.title
         
         // Then
-        XCTAssertEqual(title, viewModel.forecast.cityName)
+        XCTAssertEqual(title, viewModel.forecast.name)
     }
     
     // MARK: - Init
@@ -62,12 +62,12 @@ class ForecastDetailVMTests: TestCase {
         let viewModel = self.viewModelToTest()
         
         let weather = Weather()
-        weather.descriptionText = "bla"
-        viewModel.forecast.weather = weather
+        weather.description = "bla"
+        viewModel.forecast.weathers = [weather]
         
         let sunInfo = SunInfo()
-        sunInfo.sunsetDate = Date()
-        sunInfo.sunriseDate = Date()
+        sunInfo.sunset = Date()
+        sunInfo.sunrise = Date()
         viewModel.forecast.sunInfo = sunInfo
         
         let wind = Wind()
@@ -75,8 +75,8 @@ class ForecastDetailVMTests: TestCase {
         viewModel.forecast.wind = wind
         
         let mainInfo = ForecastMainInfo()
-        mainInfo.temperatureMin = 25
-        mainInfo.temperatureMax = 55
+        mainInfo.tempMin = 25
+        mainInfo.tempMax = 55
         mainInfo.humidity = 45
         viewModel.forecast.forecastMainInfo = mainInfo
         

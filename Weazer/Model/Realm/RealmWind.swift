@@ -19,15 +19,28 @@ class RealmWind: RealmModel {
     override func updatePropertiesToDatabase<T>(from model: T) where T : Model {
         super.updatePropertiesToDatabase(from: model)
         guard let wind = model as? Wind else { return }
+        
+        self.id = wind.id ?? 0
+        
+        if self.id == 0, let result = AppEnvironment.shared().database?.getAll(type: Wind.self) {
+            switch result {
+            case .success(let allWind):
+                self.id = allWind.count + 1
+            default:
+                self.id = 0
+            }
+        }
+        
         self.speed = wind.speed ?? 0
-        self.degree = wind.degree ?? 0
+        self.degree = wind.deg ?? 0
     }
         
     override func updatePropertiesFromDatabase<T>(to model: T) where T : Model {
         super.updatePropertiesFromDatabase(to: model)
-        guard let wind = model as? Wind else { return }
+        guard let wind = model as? Wind else { return }                
+        wind.id = self.id
         wind.speed = self.speed
-        wind.degree = self.degree
+        wind.deg = self.degree
     }
     
 }

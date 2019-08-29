@@ -16,7 +16,7 @@ class RealmForecastMainInfoTests: TestCase {
         // Given
         let realmModel = RealmForecastMainInfo()
         let remoteKey = 2
-        realmModel.remoteKey = remoteKey
+        realmModel.id = remoteKey
         realmModel.temperature = 65
         realmModel.temperatureMin = 25
         realmModel.temperatureMax = 85
@@ -29,10 +29,10 @@ class RealmForecastMainInfoTests: TestCase {
         realmModel.updatePropertiesFromDatabase(to: model)
         
         // Then
-        XCTAssertEqual(model.remoteKey, realmModel.remoteKey)
-        XCTAssertEqual(model.temperature, realmModel.temperature)
-        XCTAssertEqual(model.temperatureMin, realmModel.temperatureMin)
-        XCTAssertEqual(model.temperatureMax, realmModel.temperatureMax)
+        XCTAssertEqual(model.id, realmModel.id)
+        XCTAssertEqual(model.temp, realmModel.temperature)
+        XCTAssertEqual(model.tempMin, realmModel.temperatureMin)
+        XCTAssertEqual(model.tempMax, realmModel.temperatureMax)
         XCTAssertEqual(model.pressure, realmModel.pressure)
         XCTAssertEqual(model.humidity, realmModel.humidity)
     }
@@ -43,10 +43,10 @@ class RealmForecastMainInfoTests: TestCase {
         let realmModel = RealmForecastMainInfo()
         let model = ForecastMainInfo()
         let remoteKey = 2
-        model.remoteKey = remoteKey
-        model.temperature = 65
-        model.temperatureMin = 25
-        model.temperatureMax = 85
+        model.id = remoteKey
+        model.temp = 65
+        model.tempMin = 25
+        model.tempMax = 85
         model.pressure = 165
         model.humidity = 65
         
@@ -54,10 +54,10 @@ class RealmForecastMainInfoTests: TestCase {
         realmModel.updatePropertiesToDatabase(from: model)
         
         // Then        
-        XCTAssertEqual(model.remoteKey, realmModel.remoteKey)
-        XCTAssertEqual(model.temperature, realmModel.temperature)
-        XCTAssertEqual(model.temperatureMin, realmModel.temperatureMin)
-        XCTAssertEqual(model.temperatureMax, realmModel.temperatureMax)
+        XCTAssertEqual(model.id, realmModel.id)
+        XCTAssertEqual(model.temp, realmModel.temperature)
+        XCTAssertEqual(model.tempMin, realmModel.temperatureMin)
+        XCTAssertEqual(model.tempMax, realmModel.temperatureMax)
         XCTAssertEqual(model.pressure, realmModel.pressure)
         XCTAssertEqual(model.humidity, realmModel.humidity)
     }

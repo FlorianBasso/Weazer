@@ -63,7 +63,7 @@ struct RealmDatabase: Database {
     }
     
     func getById<T: Model>(id: Int, type: T.Type) -> Result<T, DatabaseError> {
-        let predicate = NSPredicate(format: "remoteKey == %d", id)
+        let predicate = NSPredicate(format: "id == %d", id)
         return self.getByPredicate(predicate: predicate, type: T.self)
     }
     
@@ -118,7 +118,7 @@ struct RealmDatabase: Database {
         guard let realmEntityType = self.entityMapping[entityString] else {
             return Result.failure(DatabaseError.unknownEntity)
         }
-        let predicate = NSPredicate(format: "remoteKey == %d", remoteKey)
+        let predicate = NSPredicate(format: "id == %d", remoteKey)
         guard let results = realm?.objects(realmEntityType).filter(predicate) else {
             return Result.failure(DatabaseError.noEntity)
         }

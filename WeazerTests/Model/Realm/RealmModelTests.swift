@@ -17,7 +17,7 @@ class RealmModelTests: TestCase {
         let primaryKey = RealmModel.primaryKey()
         
         // Then
-        XCTAssertEqual(primaryKey, #keyPath(RealmModel.remoteKey))
+        XCTAssertEqual(primaryKey, #keyPath(RealmModel.id))
     }
     
     // MARK: - remoteKey
@@ -26,7 +26,7 @@ class RealmModelTests: TestCase {
         let realmModel = RealmModel()
         
         // When
-        let remoteKey = realmModel.remoteKey
+        let remoteKey = realmModel.id
         
         // Then
         XCTAssertEqual(remoteKey, 0)
@@ -36,46 +36,14 @@ class RealmModelTests: TestCase {
     func test_entity_shouldReturnAnEntity_andUpdatePropertiesToModel() {
         // Given
         let realmModel = RealmModel()
-        let remoteKey = 2
-        realmModel.remoteKey = remoteKey
         
         // When
-        let entity = realmModel.entity(forType: Model.self)
+        let entity = realmModel.entity(forType: Forecast.self)
         
         // Then
-        XCTAssertNotNil(entity)
-        XCTAssertEqual(entity.remoteKey, realmModel.remoteKey)
+        XCTAssertNotNil(entity)        
     }
     
-    // MARK: - updatePropertiesFromDatabase
-    func test_updatePropertiesFromDatabase_shouldUpdatePropertiesToModel() {
-        // Given
-        let realmModel = RealmModel()
-        let remoteKey = 2
-        realmModel.remoteKey = remoteKey
-        
-        let model = Model()
-        
-        // When
-        realmModel.updatePropertiesFromDatabase(to: model)
-        
-        // Then
-        XCTAssertEqual(model.remoteKey, realmModel.remoteKey)
-    }
-    
-    // MARK: - updatePropertiesToDatabase
-    func test_updatePropertiesToDatabase_shouldUpdatePropertiesToRealmModel() {
-        // Given
-        let realmModel = RealmModel()
-        let model = Model()
-        let remoteKey = 2
-        model.remoteKey = remoteKey
-        
-        // When
-        realmModel.updatePropertiesToDatabase(from: model)
-        
-        // Then        
-        XCTAssertEqual(model.remoteKey, realmModel.remoteKey)
-    }
+  
 
 }

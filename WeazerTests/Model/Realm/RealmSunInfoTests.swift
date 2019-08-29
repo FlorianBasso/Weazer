@@ -16,7 +16,7 @@ class RealmSunInfoTests: TestCase {
         // Given
         let realmModel = RealmSunInfo()
         let remoteKey = 2
-        realmModel.remoteKey = remoteKey        
+        realmModel.id = remoteKey        
         realmModel.sunsetDate = Date(timeIntervalSince1970: 4343)
         realmModel.sunriseDate = Date(timeIntervalSince1970: 4343434)
         
@@ -26,9 +26,9 @@ class RealmSunInfoTests: TestCase {
         realmModel.updatePropertiesFromDatabase(to: model)
         
         // Then
-        XCTAssertEqual(model.remoteKey, realmModel.remoteKey)
-        XCTAssertEqual(model.sunriseDate, realmModel.sunriseDate)
-        XCTAssertEqual(model.sunsetDate, realmModel.sunsetDate)
+        XCTAssertEqual(model.id, realmModel.id)
+        XCTAssertEqual(model.sunrise, realmModel.sunriseDate)
+        XCTAssertEqual(model.sunset, realmModel.sunsetDate)
     }
     
     // MARK: - updatePropertiesToDatabase
@@ -37,17 +37,17 @@ class RealmSunInfoTests: TestCase {
         let realmModel = RealmSunInfo()
         let model = SunInfo()
         let remoteKey = 2
-        model.remoteKey = remoteKey
-        model.sunsetDate = Date(timeIntervalSince1970: 4343)
-        model.sunriseDate = Date(timeIntervalSince1970: 4343434)
+        model.id = remoteKey
+        model.sunset = Date(timeIntervalSince1970: 4343)
+        model.sunrise = Date(timeIntervalSince1970: 4343434)
         
         // When
         realmModel.updatePropertiesToDatabase(from: model)
         
         // Then        
-        XCTAssertEqual(model.remoteKey, realmModel.remoteKey)
-        XCTAssertEqual(model.sunriseDate, realmModel.sunriseDate)
-        XCTAssertEqual(model.sunsetDate, realmModel.sunsetDate)
+        XCTAssertEqual(model.id, realmModel.id)
+        XCTAssertEqual(model.sunrise, realmModel.sunriseDate)
+        XCTAssertEqual(model.sunset, realmModel.sunsetDate)
     }
 
 

@@ -63,12 +63,21 @@ class GetCurrentWeatherDataEndpoint: APIEndpoint {
     }
     
     // MARK: - Parsing
-    func parsing(responseObject: Any?) -> Result<Forecast, APIError> {
-        guard let dict = responseObject as? [AnyHashable: Any] else {
+    func parsing(responseObject: Data?) -> Result<Forecast, APIError> {
+        
+        guard let data = responseObject else {
             return Result.failure(.parsingError)
-            
         }
-        return Result.success(Forecast(data: dict))
+        
+        do {            
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .secondsSince1970
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let forecast = try decoder.decode(Forecast.self, from: data)
+            return Result.success(forecast)
+        } catch {
+            return Result.failure(.parsingError)
+        }
     }
     
     // MARK: - Error

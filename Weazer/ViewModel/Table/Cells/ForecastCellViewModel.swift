@@ -39,10 +39,10 @@ class ForecastCellViewModel: TableCellViewModel {
         }
         
         // City Name
-        forecastCell.cityNameLabel.text = self.forecast.cityName
+        forecastCell.cityNameLabel.text = self.forecast.name
         
         // Temperature
-        if let temp = self.forecast.forecastMainInfo?.temperature {
+        if let temp = self.forecast.forecastMainInfo?.temp {
             forecastCell.tempLabel.text = TempFormatter.tempText(unitFormatIsImperial: self.unitFormatIsImperial,
                                                                  temp: temp)
         }
@@ -53,11 +53,9 @@ class ForecastCellViewModel: TableCellViewModel {
         
         // Icon Image View
         if let imageManager = AppEnvironment.shared().imageManager,
-            let weather = self.forecast.weather,
-            let iconName = weather.iconName {
+            let iconName = self.forecast.weathers?.first?.icon {
             
-            let url = imageManager.url(icon: iconName)
-            
+            let url = imageManager.url(icon: iconName)            
             imageManager.setImageWith(url,
                                       on: forecastCell.iconImageView,
                                       placeholderImage: nil,

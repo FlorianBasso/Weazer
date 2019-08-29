@@ -16,7 +16,7 @@ class RealmWeatherTests: TestCase {
         // Given
         let realmWeather = RealmWeather()
         let remoteKey = 2
-        realmWeather.remoteKey = remoteKey
+        realmWeather.id = remoteKey
         realmWeather.headline = "headline"
         realmWeather.descriptionText = "bla"
         realmWeather.iconName = "bli"
@@ -27,10 +27,10 @@ class RealmWeatherTests: TestCase {
         realmWeather.updatePropertiesFromDatabase(to: weather)
         
         // Then
-        XCTAssertEqual(weather.remoteKey, realmWeather.remoteKey)
-        XCTAssertEqual(weather.headline, realmWeather.headline)
-        XCTAssertEqual(weather.descriptionText, realmWeather.descriptionText)
-        XCTAssertEqual(weather.iconName, realmWeather.iconName)
+        XCTAssertEqual(weather.id, realmWeather.id)
+        XCTAssertEqual(weather.main, realmWeather.headline)
+        XCTAssertEqual(weather.description, realmWeather.descriptionText)
+        XCTAssertEqual(weather.icon, realmWeather.iconName)
     }
     
     // MARK: - updatePropertiesToDatabase
@@ -39,19 +39,19 @@ class RealmWeatherTests: TestCase {
         let realmWeather = RealmWeather()
         let weather = Weather()
         let remoteKey = 2
-        weather.remoteKey = remoteKey
-        weather.headline = "name"
-        weather.descriptionText = "bla"
-        weather.iconName = "bli"
+        weather.id = remoteKey
+        weather.main = "name"
+        weather.description = "bla"
+        weather.icon = "bli"
         
         // When
         realmWeather.updatePropertiesToDatabase(from: weather)
         
         // Then        
-        XCTAssertEqual(weather.remoteKey, realmWeather.remoteKey)
-        XCTAssertEqual(weather.headline, realmWeather.headline)
-        XCTAssertEqual(weather.descriptionText, realmWeather.descriptionText)
-        XCTAssertEqual(weather.iconName, realmWeather.iconName)
+        XCTAssertEqual(weather.id, realmWeather.id)
+        XCTAssertEqual(weather.main, realmWeather.headline)
+        XCTAssertEqual(weather.description, realmWeather.descriptionText)
+        XCTAssertEqual(weather.icon, realmWeather.iconName)
     }
     
 }

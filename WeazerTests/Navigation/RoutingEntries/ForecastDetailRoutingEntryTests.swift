@@ -50,7 +50,7 @@ class ForecastDetailRoutingEntryTests: TestCase {
         let routingEntry = ForecastDetailRoutingEntry(forecast: forecast, unitFormatIsImperial: unitFormatIsImperial)
         
         // Then
-        XCTAssertEqual(forecast, routingEntry.forecast)
+        XCTAssertEqual(forecast, routingEntry.forecast)        
         XCTAssertEqual(unitFormatIsImperial, routingEntry.unitFormatIsImperial)
     }
     

@@ -109,7 +109,7 @@ class MyForecastsVM: SearchableTVM {
     override func filterContentForSearchText(_ searchText: String) {
         // Only display repo with a issue that has the title search text
         self.filteredForecasts = self.databaseForecasts.filter({( forecast : Forecast) -> Bool in
-            return forecast.cityName?.lowercased().contains(searchText.lowercased()) ?? false     
+            return forecast.name?.lowercased().contains(searchText.lowercased()) ?? false
         })
         
         self.isFiltering = true
@@ -150,8 +150,10 @@ class MyForecastsVM: SearchableTVM {
                     tableView.deleteRows(at: [indexPath], with: .fade)
                 }
                                 
-                // Deletes from database                
-                _ = AppEnvironment.shared().database?.deleteById(remoteKey: forecast.remoteKey, type: Forecast.self)
+                // Deletes from database
+                if let id = forecast.id {
+                    _ = AppEnvironment.shared().database?.deleteById(remoteKey: id, type: Forecast.self)
+                }                
             }
         }
                 

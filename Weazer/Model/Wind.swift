@@ -9,42 +9,21 @@
 import Foundation
 
 class Wind: Model {
-    
+    var id: Int?
     var speed: Double?
-    var degree: Int?
+    var deg: Int?
     
-    struct Constants {
-        static let speed = "speed"
-        static let degree = "deg"        
+    private enum CodingKeys: String, CodingKey {
+        case speed
+        case deg
     }
     
-    // MARK: - Parsing
-    
-    override open func parse(data: [AnyHashable : Any]) {
-        super.parse(data: data)
-        
-        // Speed
-        if let speed = data[Constants.speed] as? Double {
-            self.speed = speed
-        }
-        
-        // Degree
-        if let degree = data[Constants.degree] as? Int {
-            self.degree = degree
-        }
-        
-    }
-    
-    override func remoteKey(inRepresentation representation: [AnyHashable: Any]) -> Int {
-        guard let result = AppEnvironment.shared().database?.getAll(type: Wind.self) else {
-            return 0
-        }
-        
-        switch result {
-        case .success(let allWind):
-            return allWind.count + 1
-        default:
-            return 0
-        }                
+}
+
+extension Wind {
+    static func ==(lhs: Wind, rhs: Wind) -> Bool {
+        return lhs.id == rhs.id &&
+            lhs.speed == rhs.speed &&
+            lhs.deg == rhs.deg
     }
 }

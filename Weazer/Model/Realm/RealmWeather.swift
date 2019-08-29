@@ -21,17 +21,19 @@ class RealmWeather: RealmModel {
     override func updatePropertiesFromDatabase<T>(to model: T) where T : Model {
         super.updatePropertiesFromDatabase(to: model)
         guard let weather = model as? Weather else { return }
-        weather.headline = self.headline
-        weather.descriptionText = self.descriptionText
-        weather.iconName = self.iconName
+        weather.id = self.id
+        weather.main = self.headline
+        weather.description = self.descriptionText
+        weather.icon = self.iconName
     }
     
     override func updatePropertiesToDatabase<T>(from model: T) where T : Model {
         super.updatePropertiesToDatabase(from: model)        
         guard let weather = model as? Weather else { return }
-        self.headline = weather.headline
-        self.descriptionText = weather.descriptionText
-        self.iconName = weather.iconName
+        self.id = weather.id ?? 0
+        self.headline = weather.main
+        self.descriptionText = weather.description
+        self.iconName = weather.icon
     }
     
 }

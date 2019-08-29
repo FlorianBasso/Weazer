@@ -29,28 +29,34 @@ class AlamofireAPI: API {
         
         let semaphore = DispatchSemaphore(value: 0)
         
-            let currentRequest = SessionManager.default.request(URL(string: "\(self.basePath)\(endpoint.path)")!,
-                                                                method: AlamofireAPI.method(apiMethod: endpoint.method),
-                                                                parameters: endpoint.entryParameters,
-                                                                encoding: URLEncoding.default,
-                                                                headers: nil)
+        let currentRequest = SessionManager.default.request(URL(string: "\(self.basePath)\(endpoint.path)")!,
+                                                            method: AlamofireAPI.method(apiMethod: endpoint.method),
+                                                            parameters: endpoint.entryParameters,
+                                                            encoding: URLEncoding.default,
+                                                            headers: nil)
+        
+        self.lastTask = currentRequest.task
+        
+        currentRequest.responseData { (response) in
             
-            self.lastTask = currentRequest.task
-            
-            currentRequest.responseJSON { (response) in
-                switch response.result {
-                case .success:
-                    if let value = response.result.value,
-                        let parsedResult = endpoint.parsing(responseObject: value) as? Swift.Result<U, APIError> {
-                        result = parsedResult
-                    } else {
-                        result = .failure(APIError.parsingError)
-                    }
-                case .failure(_):
-                    result = .failure(APIError.server)
+            switch response.result {
+            case .success:
+                
+                if let value = response.result.value,
+                    let parsedResult = endpoint.parsing(responseObject: value) as? Swift.Result<U, APIError> {
+                    result = parsedResult
+                } else {
+                    result = .failure(APIError.parsingError)
                 }
-                semaphore.signal()
+            case .failure(_):
+                result = .failure(APIError.server)
             }
+            semaphore.signal()
+        }
+        
+        currentRequest.responseJSON { (response) in
+            
+        }
         
         if semaphore.wait(timeout: .now() + 15) == .timedOut {
             self.lastTask?.cancel()

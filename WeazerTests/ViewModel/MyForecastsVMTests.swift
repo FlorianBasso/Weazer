@@ -132,7 +132,7 @@ class MyForecastsVMTests: TestCase {
         let searchText = "bla"
         
         let forecast = Forecast()
-        forecast.cityName = searchText
+        forecast.name = searchText
         viewModel.databaseForecasts.append(forecast)
         
         // When

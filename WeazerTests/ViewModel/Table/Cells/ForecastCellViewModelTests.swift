@@ -55,7 +55,7 @@ class ForecastCellViewModelTests: TestCase {
         let cell = Bundle(for: ForecastCell.self).loadNibNamed(String(describing: ForecastCell.self), owner: self, options: nil)?.first as! ForecastCell
         let cellViewModel = self.cellViewModelToTest()
         let name = "name"
-        cellViewModel.forecast.cityName = name
+        cellViewModel.forecast.name = name
         
         // When
         cellViewModel.willDisplay(cell)

@@ -16,7 +16,7 @@ class RealmWindTests: TestCase {
         // Given
         let realmModel = RealmWind()
         let remoteKey = 2
-        realmModel.remoteKey = remoteKey
+        realmModel.id = remoteKey
         realmModel.speed = 65
         realmModel.degree = 25
         
@@ -26,9 +26,9 @@ class RealmWindTests: TestCase {
         realmModel.updatePropertiesFromDatabase(to: model)
         
         // Then        
-        XCTAssertEqual(model.remoteKey, realmModel.remoteKey)
+        XCTAssertEqual(model.id, realmModel.id)
         XCTAssertEqual(model.speed, realmModel.speed)
-        XCTAssertEqual(model.degree, realmModel.degree)
+        XCTAssertEqual(model.deg, realmModel.degree)
     }
     
     // MARK: - updatePropertiesToDatabase
@@ -37,17 +37,17 @@ class RealmWindTests: TestCase {
         let realmModel = RealmWind()
         let model = Wind()
         let remoteKey = 2
-        model.remoteKey = remoteKey
+        model.id = remoteKey
         model.speed = 65
-        model.degree = 25
+        model.deg = 25
         
         // When
         realmModel.updatePropertiesToDatabase(from: model)
         
         // Then        
-        XCTAssertEqual(model.remoteKey, realmModel.remoteKey)
+        XCTAssertEqual(model.id, realmModel.id)
         XCTAssertEqual(model.speed, realmModel.speed)
-        XCTAssertEqual(model.degree, realmModel.degree)        
+        XCTAssertEqual(model.deg, realmModel.degree)        
     }
 
 

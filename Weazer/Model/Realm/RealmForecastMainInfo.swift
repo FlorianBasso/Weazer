@@ -22,10 +22,10 @@ class RealmForecastMainInfo: RealmModel {
     override func updatePropertiesFromDatabase<T>(to model: T) where T : Model {
         super.updatePropertiesFromDatabase(to: model)
         guard let forecastMainInfo = model as? ForecastMainInfo else { return }
-        forecastMainInfo.remoteKey = self.remoteKey
-        forecastMainInfo.temperature = self.temperature
-        forecastMainInfo.temperatureMin = self.temperatureMin
-        forecastMainInfo.temperatureMax = self.temperatureMax
+        forecastMainInfo.id = self.id
+        forecastMainInfo.temp = self.temperature
+        forecastMainInfo.tempMin = self.temperatureMin
+        forecastMainInfo.tempMax = self.temperatureMax
         forecastMainInfo.pressure = self.pressure
         forecastMainInfo.humidity = self.humidity
     }
@@ -33,9 +33,23 @@ class RealmForecastMainInfo: RealmModel {
     override func updatePropertiesToDatabase<T>(from model: T) where T : Model {
         super.updatePropertiesToDatabase(from: model)
         guard let forecastMainInfo = model as? ForecastMainInfo else { return }
-        self.temperature = forecastMainInfo.temperature ?? 0
-        self.temperatureMin = forecastMainInfo.temperatureMin ?? 0
-        self.temperatureMax = forecastMainInfo.temperatureMax ?? 0
+        
+        self.id = forecastMainInfo.id ?? 0
+        
+        if self.id == 0,
+            let result = AppEnvironment.shared().database?.getAll(type: ForecastMainInfo.self) {
+            
+            switch result {
+            case .success(let allForecastMainInfo):
+                self.id = allForecastMainInfo.count + 1
+            default:
+                self.id = 0
+            }
+        } 
+                
+        self.temperature = forecastMainInfo.temp ?? 0
+        self.temperatureMin = forecastMainInfo.tempMin ?? 0
+        self.temperatureMax = forecastMainInfo.tempMax ?? 0
         self.pressure = forecastMainInfo.pressure ?? 0
         self.humidity = forecastMainInfo.humidity ?? 0
     }

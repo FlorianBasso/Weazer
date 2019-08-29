@@ -156,7 +156,7 @@ class GetCurrentWeatherDataEndpointTests: TestCase {
     func test_parsingResponseObject_shouldReturnForecast_whenJsonIsCorrect() {
         // Given
         let endpoint = GetCurrentWeatherDataEndpoint(cityName: nil, coordinate: nil)
-        let responseObject: [AnyHashable: Any] = [:]
+        let responseObject: Data = try! JSONSerialization.data(withJSONObject: [:], options: [])
         
         // When
         let result = endpoint.parsing(responseObject: responseObject)

@@ -10,29 +10,19 @@ import Foundation
 
 class SunInfo: Model {
     
-    var sunriseDate: Date?
-    var sunsetDate: Date?
-    
-    struct Constants {
-        static let sunrise = "sunrise"
-        static let sunset = "sunset"
-        
-    }
-    
-    // MARK: - Parsing
-    
-    override open func parse(data: [AnyHashable : Any]) {
-        super.parse(data: data)
-        
-        // Sunrise
-        if let sunriseUTC = data[Constants.sunrise] as? Int64 {
-            self.sunriseDate = Date(timeIntervalSince1970: TimeInterval(sunriseUTC))
-        }
-        
-        // Sunset
-        if let sunsetUTC = data[Constants.sunset] as? Int64 {
-            self.sunsetDate = Date(timeIntervalSince1970: TimeInterval(sunsetUTC))
-        }
-        
+    // Use
+    // JSONDecoder().dateDecodingStrategy = .secondsSince1970
+    //
+    var id: Int?
+    var sunrise: Date?
+    var sunset: Date?
+              
+}
+
+extension SunInfo {
+    static func ==(lhs: SunInfo, rhs: SunInfo) -> Bool {
+        return lhs.id == rhs.id &&
+            lhs.sunrise == rhs.sunrise &&
+            lhs.sunset == rhs.sunset
     }
 }

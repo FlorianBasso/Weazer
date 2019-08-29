@@ -16,7 +16,7 @@ class ForecastDetailVM: TableViewModel {
     
     override var title: String? {
         get {
-            return self.forecast.cityName
+            return self.forecast.name
         }
         set {}
     }
@@ -45,64 +45,62 @@ class ForecastDetailVM: TableViewModel {
         section.items.append(forecastCVM)
         
         // Weather
-        if let weather = self.forecast.weather,
-            let descriptionText = weather.descriptionText?.capitalized {
+        if let firstWeatherDescription = self.forecast.weathers?.first?.description {
             let title = NSLocalizedString("weather.title", comment: "")
-            let weatherCVM = DetailInfoCellViewModel(title: title, info: descriptionText)
+            let weatherCVM = DetailInfoCellViewModel(title: title, info: firstWeatherDescription.capitalized)
             section.items.append(weatherCVM)
         }
         
+        
         // Sun Info
-        if let sunInfo = self.forecast.sunInfo {
-            
-            if let sunriseDate = sunInfo.sunriseDate {
-                let sunriseTitle = NSLocalizedString("sunrise.title", comment: "")
-                let sunriseTime = TimeFormatter.time(from: sunriseDate)
-                let sunriseCVM = DetailInfoCellViewModel(title: sunriseTitle, info: sunriseTime)
-                section.items.append(sunriseCVM)
-            }
-            
-            if let sunsetDate = sunInfo.sunsetDate {
-                let sunsetTitle = NSLocalizedString("sunset.title", comment: "")
-                let sunsetTime = TimeFormatter.time(from: sunsetDate)
-                let sunsetCVM = DetailInfoCellViewModel(title: sunsetTitle, info: sunsetTime)
-                section.items.append(sunsetCVM)
-            }
+        if let sunriseDate = self.forecast.sunInfo?.sunrise {
+            let sunriseTitle = NSLocalizedString("sunrise.title", comment: "")
+            let sunriseTime = TimeFormatter.time(from: sunriseDate)
+            let sunriseCVM = DetailInfoCellViewModel(title: sunriseTitle, info: sunriseTime)
+            section.items.append(sunriseCVM)
         }
+        
+        if let sunsetDate = self.forecast.sunInfo?.sunset {
+            let sunsetTitle = NSLocalizedString("sunset.title", comment: "")
+            let sunsetTime = TimeFormatter.time(from: sunsetDate)
+            let sunsetCVM = DetailInfoCellViewModel(title: sunsetTitle, info: sunsetTime)
+            section.items.append(sunsetCVM)
+        }
+        
         
         // Wind
-        if let wind = self.forecast.wind {
-            if let speed = wind.speed {
-                let windTitle = NSLocalizedString("wind.title", comment: "")
-                let speedText = SpeedFormatter.speedText(unitFormatIsImperial: self.unitFormatIsImperial, speed: speed)
-                let windCVM = DetailInfoCellViewModel(title: windTitle, info: speedText)
-                section.items.append(windCVM)
-            }
+        if let speed = self.forecast.wind?.speed {
+            let windTitle = NSLocalizedString("wind.title", comment: "")
+            let speedText = SpeedFormatter.speedText(unitFormatIsImperial: self.unitFormatIsImperial,
+                                                     speed: speed)
+            let windCVM = DetailInfoCellViewModel(title: windTitle, info: speedText)
+            section.items.append(windCVM)
         }
         
+        
         // Main Info
-        if let forecastMainInfo = self.forecast.forecastMainInfo {
+        let forecastMainInfo = self.forecast.forecastMainInfo
             
-            if let tempMin = forecastMainInfo.temperatureMin {
-                let tempMinTitle = NSLocalizedString("temp.min.title", comment: "")
-                let tempMinText = TempFormatter.tempText(unitFormatIsImperial: self.unitFormatIsImperial, temp: tempMin)
-                let tempMinCVM = DetailInfoCellViewModel(title: tempMinTitle, info: tempMinText)
-                section.items.append(tempMinCVM)
-            }
-            
-            if let tempMax = forecastMainInfo.temperatureMax {
-                let tempMaxTitle = NSLocalizedString("temp.max.title", comment: "")
-                let tempMaxText = TempFormatter.tempText(unitFormatIsImperial: self.unitFormatIsImperial, temp: tempMax)
-                let tempMaxCVM = DetailInfoCellViewModel(title: tempMaxTitle, info: tempMaxText)
-                section.items.append(tempMaxCVM)
-            }
-            
-            if let humidity = forecastMainInfo.humidity {
-                let humidityTitle = NSLocalizedString("humidity.title", comment: "")
-                let humidityText = "\(humidity)%"
-                let humidityCVM = DetailInfoCellViewModel(title: humidityTitle, info: humidityText)
-                section.items.append(humidityCVM)
-            }
+        if let tempMin = forecastMainInfo?.tempMin {
+            let tempMinTitle = NSLocalizedString("temp.min.title", comment: "")
+            let tempMinText = TempFormatter.tempText(unitFormatIsImperial: self.unitFormatIsImperial, temp: tempMin)
+            let tempMinCVM = DetailInfoCellViewModel(title: tempMinTitle, info: tempMinText)
+            section.items.append(tempMinCVM)
+        }
+        
+        if let tempMax = forecastMainInfo?.tempMax {
+            let tempMaxTitle = NSLocalizedString("temp.max.title", comment: "")
+            let tempMaxText = TempFormatter.tempText(unitFormatIsImperial: self.unitFormatIsImperial, temp: tempMax)
+            let tempMaxCVM = DetailInfoCellViewModel(title: tempMaxTitle, info: tempMaxText)
+            section.items.append(tempMaxCVM)
+        }
+        
+        
+        if let humidity = forecastMainInfo?.humidity {
+            let humidityTitle = NSLocalizedString("humidity.title", comment: "")
+            let humidityText = "\(humidity)%"
+            let humidityCVM = DetailInfoCellViewModel(title: humidityTitle, info: humidityText)
+            section.items.append(humidityCVM)
         }
         
         self.sections.append(section)

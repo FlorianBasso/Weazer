@@ -16,11 +16,11 @@ class RealmForecastTests: TestCase {
         // Given
         let realmForecast = RealmForecast()
         let remoteKey = 2
-        realmForecast.remoteKey = remoteKey
-        realmForecast.cityName = "name"
+        realmForecast.id = remoteKey
+        realmForecast.name = "name"
         
         let realmWeather = RealmWeather()
-        realmForecast.weather = realmWeather
+        realmForecast.weathers.append(realmWeather)
         
         let realmSunInfo = RealmSunInfo()
         realmForecast.sunInfo = realmSunInfo
@@ -41,9 +41,9 @@ class RealmForecastTests: TestCase {
         realmForecast.updatePropertiesFromDatabase(to: forecast)
         
         // Then
-        XCTAssertEqual(forecast.remoteKey, realmForecast.remoteKey)
-        XCTAssertEqual(forecast.cityName, realmForecast.cityName)
-        XCTAssertEqual(forecast.weather, realmForecast.weather?.entity(forType: Weather.self))
+        XCTAssertEqual(forecast.id, realmForecast.id)
+        XCTAssertEqual(forecast.name, realmForecast.name)
+        XCTAssertEqual(forecast.weathers?.first, realmForecast.weathers.first?.entity(forType: Weather.self))
         XCTAssertEqual(forecast.sunInfo, realmForecast.sunInfo?.entity(forType: SunInfo.self))
         XCTAssertEqual(forecast.wind, realmForecast.wind?.entity(forType: Wind.self))
         XCTAssertEqual(forecast.forecastMainInfo, realmForecast.forecastMainInfo?.entity(forType: ForecastMainInfo.self))
@@ -56,19 +56,30 @@ class RealmForecastTests: TestCase {
         let realmForecast = RealmForecast()
         let forecast = Forecast()
         let remoteKey = 2
-        forecast.remoteKey = remoteKey
-        forecast.cityName = "name"
+        forecast.id = remoteKey
+        forecast.name = "name"
         
         let weather = Weather()
-        forecast.weather = weather
+        weather.id = remoteKey
+        forecast.weathers = [weather]
         
         let sunInfo = SunInfo()
+        sunInfo.id = remoteKey
         forecast.sunInfo = sunInfo
         
         let wind = Wind()
+        wind.id = remoteKey
+        wind.speed = 0
+        wind.deg = 0
         forecast.wind = wind
         
         let forecastMainInfo = ForecastMainInfo()
+        forecastMainInfo.id = remoteKey
+        forecastMainInfo.temp  = 0
+        forecastMainInfo.tempMin = 0
+        forecastMainInfo.tempMax = 0
+        forecastMainInfo.pressure = 0
+        forecastMainInfo.humidity = 0
         forecast.forecastMainInfo = forecastMainInfo
         
         forecast.forUserPosition = false
@@ -77,12 +88,12 @@ class RealmForecastTests: TestCase {
         realmForecast.updatePropertiesToDatabase(from: forecast)
         
         // Then        
-        XCTAssertEqual(forecast.remoteKey, realmForecast.remoteKey)
-        XCTAssertEqual(forecast.cityName, realmForecast.cityName)
-        XCTAssertEqual(forecast.weather, realmForecast.weather?.entity(forType: Weather.self))
-        XCTAssertEqual(forecast.sunInfo, realmForecast.sunInfo?.entity(forType: SunInfo.self))
-        XCTAssertEqual(forecast.wind, realmForecast.wind?.entity(forType: Wind.self))
-        XCTAssertEqual(forecast.forecastMainInfo, realmForecast.forecastMainInfo?.entity(forType: ForecastMainInfo.self))
+        XCTAssertEqual(forecast.id, realmForecast.id)
+        XCTAssertEqual(forecast.name, realmForecast.name)
+        XCTAssertEqual(forecast.weathers!.first, realmForecast.weathers.first!.entity(forType: Weather.self))
+        XCTAssertEqual(forecast.sunInfo, realmForecast.sunInfo!.entity(forType: SunInfo.self))
+        XCTAssertEqual(forecast.wind, realmForecast.wind!.entity(forType: Wind.self))
+        XCTAssertEqual(forecast.forecastMainInfo, realmForecast.forecastMainInfo!.entity(forType: ForecastMainInfo.self))
         XCTAssertEqual(forecast.forUserPosition, realmForecast.forUserPosition)
         
     }

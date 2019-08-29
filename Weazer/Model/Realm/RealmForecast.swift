@@ -13,39 +13,49 @@ class RealmForecast: RealmModel {
     
     // MARK: - Properties
     
-    dynamic var cityName: String?
-    dynamic var weather: RealmWeather?
+    dynamic var name: String?
+    var weathers = List<RealmWeather>()
     dynamic var sunInfo: RealmSunInfo?
     dynamic var wind: RealmWind?
     dynamic var forecastMainInfo: RealmForecastMainInfo?
     dynamic var forUserPosition: Bool = false
-    
+            
     // MARK: - YMMRealmObject
     
     override func updatePropertiesFromDatabase<T>(to model: T) where T : Model {
         super.updatePropertiesFromDatabase(to: model)
         guard let forecast = model as? Forecast else { return }
-        forecast.cityName = self.cityName
-        forecast.weather =  self.weather?.entity(forType: Weather.self)
+        forecast.name = self.name
+        
+        if let weather = self.weathers.first?.entity(forType: Weather.self) {
+            forecast.weathers =  [weather]
+        }
+        
         forecast.sunInfo = self.sunInfo?.entity(forType: SunInfo.self)
         forecast.wind = self.wind?.entity(forType: Wind.self)
         forecast.forecastMainInfo = self.forecastMainInfo?.entity(forType: ForecastMainInfo.self)
         forecast.forUserPosition = self.forUserPosition
+        forecast.id = self.id
     }
+    
     override func updatePropertiesToDatabase<T>(from model: T) where T : Model {
         super.updatePropertiesToDatabase(from: model)
        
         guard let forecast = model as? Forecast else { return }
-        self.cityName = forecast.cityName
+        
+        self.id = forecast.id ?? 0
+        self.name = forecast.name
         self.forUserPosition = forecast.forUserPosition
         
         // Weather
-        if let weather = forecast.weather {
+        if let firstWeather = forecast.weathers?.first {
             let realmWeather = RealmWeather()
-            realmWeather.updatePropertiesToDatabase(from: weather)
-            self.weather = realmWeather
+            realmWeather.updatePropertiesToDatabase(from: firstWeather)
+            let realmWeathers = List<RealmWeather>()
+            realmWeathers.append(realmWeather)
+            self.weathers = realmWeathers
         }
-        
+                        
         // Sun Info
         if let sunInfo = forecast.sunInfo {
             let realmSunInfo = RealmSunInfo()
@@ -61,11 +71,12 @@ class RealmForecast: RealmModel {
         }
         
         // Forecast Main Info
-        if let forecastMainInfo = forecast.forecastMainInfo {
+        if let mainInfo = forecast.forecastMainInfo {
             let realmForecastMainInfo = RealmForecastMainInfo()
-            realmForecastMainInfo.updatePropertiesToDatabase(from: forecastMainInfo)
+            realmForecastMainInfo.updatePropertiesToDatabase(from: mainInfo)
             self.forecastMainInfo = realmForecastMainInfo
         }
+        
     }
     
 }
