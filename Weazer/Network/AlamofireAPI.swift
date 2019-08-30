@@ -25,11 +25,15 @@ class AlamofireAPI: API {
     }
     
     func request<T, U>(with endpoint: T, resultType: U.Type) -> Swift.Result<U, APIError> where T : APIEndpoint {
-        var result: Swift.Result<U, APIError>!
+        var result: Swift.Result<U, APIError> = .failure(APIError.server)
         
         let semaphore = DispatchSemaphore(value: 0)
         
-        let currentRequest = SessionManager.default.request(URL(string: "\(self.basePath)\(endpoint.path)")!,
+        guard let url = URL(string: "\(self.basePath)\(endpoint.path)") else {
+            return result
+        }
+        
+        let currentRequest = SessionManager.default.request(url,
                                                             method: AlamofireAPI.method(apiMethod: endpoint.method),
                                                             parameters: endpoint.entryParameters,
                                                             encoding: URLEncoding.default,
@@ -52,10 +56,6 @@ class AlamofireAPI: API {
                 result = .failure(APIError.server)
             }
             semaphore.signal()
-        }
-        
-        currentRequest.responseJSON { (response) in
-            
         }
         
         if semaphore.wait(timeout: .now() + 15) == .timedOut {
