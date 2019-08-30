@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina6_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,20 +15,20 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="Qla-ii-x2e">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" red="0.30778670310974121" green="0.36318093538284302" blue="0.4504542350769043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Qla-ii-x2e" secondAttribute="bottom" id="Gw6-cp-Tni"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Qla-ii-x2e" secondAttribute="trailing" id="RT0-MF-3Gg"/>
-                            <constraint firstItem="Qla-ii-x2e" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="n0R-8W-n1H"/>
-                            <constraint firstItem="Qla-ii-x2e" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="-20" id="qKh-iU-Auh"/>
+                            <constraint firstItem="Qla-ii-x2e" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="2fI-IF-yQA"/>
+                            <constraint firstAttribute="trailing" secondItem="Qla-ii-x2e" secondAttribute="trailing" id="AY2-1x-rmW"/>
+                            <constraint firstItem="Qla-ii-x2e" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="HYM-OO-gOe"/>
+                            <constraint firstAttribute="bottom" secondItem="Qla-ii-x2e" secondAttribute="bottom" id="djg-nA-tnH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -50,6 +50,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo" width="342" height="342"/>
+        <image name="logo" width="341.33334350585938" height="341.33334350585938"/>
     </resources>
 </document>
