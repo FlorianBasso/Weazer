@@ -693,7 +693,7 @@
 					};
 					12765E4C21636D9900A740CF = {
 						CreatedOnToolsVersion = 10.0;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1110;
 						TestTargetID = 12765E3821636D9700A740CF;
 					};
 				};
@@ -1118,7 +1118,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "WeazerTests/Environment/WeazerTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Weazer.app/Weazer";
 			};
@@ -1142,7 +1142,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.roaflin.WeazerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "WeazerTests/Environment/WeazerTests-Bridging-Header.h";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Weazer.app/Weazer";
 			};
