@@ -35,8 +35,11 @@ class SearchableTVM: TableViewModel {
         self.searchController = UISearchController(searchResultsController: nil)
         
         self.searchController?.searchBar.barTintColor = .clear
-        self.searchController?.searchBar.isTranslucent = true
+        self.searchController?.searchBar.isTranslucent = false
         self.searchController?.searchBar.tintColor = .white
+        self.searchController?.searchBar.searchBarStyle = .minimal
+        self.searchController?.searchBar.searchTextField.textColor = .white
+        
         
         // Use the current view controller to update the search results.
         self.searchController?.searchResultsUpdater = self
