@@ -89,7 +89,7 @@ struct RealmDatabase: Database {
         try? realm?.write {
             let realmEntity = realmEntityType.init()
             realmEntity.updatePropertiesToDatabase(from: item)
-            realm?.add(realmEntity, update: true)
+            realm?.add(realmEntity, update: .all)            
         }
         
         return Result.success(item)

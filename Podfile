@@ -6,7 +6,7 @@ target 'Weazer' do
 
   # Pods for Weazer
   pod 'Alamofire', '~> 4.8.2'
-  pod 'RealmSwift', '~> 3.9.0'
+  pod 'RealmSwift', '~> 4.1.1'
   pod 'SDWebImage/Core', '~>4.0'
 
   target 'WeazerTests' do
